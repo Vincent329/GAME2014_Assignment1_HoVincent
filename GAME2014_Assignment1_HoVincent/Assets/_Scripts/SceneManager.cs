@@ -1,3 +1,18 @@
+//------------Scene Manager.cs------------
+/* Name: Vincent Ho
+ * Student Number: 101334300
+ * 
+ * Date Last Modified: September 29, 2021
+ * 
+ * Description: This script is used as a manager class for level loading
+ * An enumerator designates the available screens that the player can select, 
+ * and the designated method will load the appropriate level based on the enumerator
+ * 
+ * Revision History:
+ * 1) created script
+ * 2) Filled script with functions that load specific levels based on enumeration 
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
