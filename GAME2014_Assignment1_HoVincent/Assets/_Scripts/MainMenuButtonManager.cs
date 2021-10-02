@@ -27,6 +27,7 @@ public class MainMenuButtonManager : MonoBehaviour
     public GameObject InstructionButton;
     public GameObject BackButton;
     public GameObject Avatar;
+    public GameObject InstructionsPanels;
     public TextMeshProUGUI Title;
    
     // Start is called before the first frame update
@@ -36,7 +37,7 @@ public class MainMenuButtonManager : MonoBehaviour
         PlayButton.SetActive(true);
         InstructionButton.SetActive(true);
         BackButton.SetActive(false);
-
+        InstructionsPanels.SetActive(false);
 
         Avatar.SetActive(true);
         Title.enabled = true;
@@ -60,6 +61,7 @@ public class MainMenuButtonManager : MonoBehaviour
         PlayButton.SetActive(false);
         InstructionButton.SetActive(false);
         BackButton.SetActive(true);
+        InstructionsPanels.SetActive(true);
 
 
         Avatar.SetActive(false);
@@ -71,6 +73,7 @@ public class MainMenuButtonManager : MonoBehaviour
         PlayButton.SetActive(true);
         InstructionButton.SetActive(true);
         BackButton.SetActive(false);
+        InstructionsPanels.SetActive(false);
 
         Avatar.SetActive(true);
         Title.enabled = true;
