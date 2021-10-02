@@ -23,53 +23,55 @@ using TMPro;
 
 public class MainMenuButtonManager : MonoBehaviour
 {
-    public Button PlayButton;
-    public Button InstructionButton;
-    public Button BackButton;
+    public GameObject PlayButton;
+    public GameObject InstructionButton;
+    public GameObject BackButton;
     public GameObject Avatar;
     public TextMeshProUGUI Title;
    
     // Start is called before the first frame update
     void Start()
     {
-        PlayButton.enabled = true;
-        InstructionButton.enabled = true;
-        BackButton.enabled = false;
 
-        PlayButton.GetComponent<Image>().enabled = true;
-        InstructionButton.GetComponent<Image>().enabled = true;
-        BackButton.GetComponent<Image>().enabled = false;
+        PlayButton.SetActive(true);
+        InstructionButton.SetActive(true);
+        BackButton.SetActive(false);
+
+
         Avatar.SetActive(true);
         Title.enabled = true;
     }
-
+    public void loadMenuScene()
+    {
+        SceneManager.LoadScene((int)Menus.MAINMENU);
+    }
     public void loadGameScene()
     {
         SceneManager.LoadScene((int)Menus.GAME);
     }
 
+    public void loadGameOverScene()
+    {
+        SceneManager.LoadScene((int)Menus.GAMEOVER);
+    }
+
     public void EnableInstruction()
     {
-        PlayButton.enabled = false;
-        InstructionButton.enabled = false;
-        BackButton.enabled = true;
+        PlayButton.SetActive(false);
+        InstructionButton.SetActive(false);
+        BackButton.SetActive(true);
 
-        PlayButton.GetComponent<Image>().enabled = false;
-        InstructionButton.GetComponent<Image>().enabled = false;
-        BackButton.GetComponent<Image>().enabled = true;
+
         Avatar.SetActive(false);
         Title.enabled = false;
     }
 
     public void DisableInstruction()
     {
-        PlayButton.enabled = true;
-        InstructionButton.enabled = true;
-        BackButton.enabled = false;
+        PlayButton.SetActive(true);
+        InstructionButton.SetActive(true);
+        BackButton.SetActive(false);
 
-        PlayButton.GetComponent<Image>().enabled = true;
-        InstructionButton.GetComponent<Image>().enabled = true;
-        BackButton.GetComponent<Image>().enabled = false;
         Avatar.SetActive(true);
         Title.enabled = true;
     }
