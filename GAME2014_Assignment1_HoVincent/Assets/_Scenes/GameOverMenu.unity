@@ -784,7 +784,7 @@ GameObject:
   - component: {fileID: 1021993596}
   - component: {fileID: 1021993595}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: GameOverMusic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -802,7 +802,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 14f503bebedf8f34e9f87aaa4148557c, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
