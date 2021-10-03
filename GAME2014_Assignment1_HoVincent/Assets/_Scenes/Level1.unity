@@ -682,7 +682,7 @@ GameObject:
   - component: {fileID: 471333651}
   - component: {fileID: 471333652}
   m_Layer: 5
-  m_Name: Slider
+  m_Name: HealthSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -705,9 +705,9 @@ RectTransform:
   m_Father: {fileID: 2117011443}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 822, y: 632}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -698, y: -88}
   m_SizeDelta: {x: 160, y: 41}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &471333652
@@ -2169,10 +2169,10 @@ RectTransform:
   m_Father: {fileID: 2117011443}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.047707807, y: 0.149}
-  m_AnchorMax: {x: 0.99514157, y: 0.82100004}
-  m_AnchoredPosition: {x: -357.33752, y: -591.91675}
-  m_SizeDelta: {x: -1110.5847, y: -776.5416}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1227.6625, y: 106.58325}
+  m_SizeDelta: {x: 1769.4153, y: 190.45837}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1287539572
 MonoBehaviour:
@@ -2332,10 +2332,10 @@ RectTransform:
   m_Father: {fileID: 2117011443}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -332.22333, y: -614.68066}
-  m_SizeDelta: {x: 1867.7971, y: 167.809}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 1187.7766, y: 105.319336}
+  m_SizeDelta: {x: 1867.7971, y: 167.80902}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1399692941
 MonoBehaviour:
