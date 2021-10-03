@@ -12,6 +12,8 @@
  * 1) created script
  * 2) Filled script with functions that load specific levels based on enumeration (Sept. 29)
  * 3) Created functions to travel to different functions
+ * 4) Implemented a condition where if the Game Manager GameObject exists in the Main Menu Scene, 
+ * initialize the basic states of the attached variables
  */
 
 using System.Collections;
