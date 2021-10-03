@@ -14,6 +14,7 @@
  * 3) Created functions to travel to different functions
  * 4) Implemented a condition where if the Game Manager GameObject exists in the Main Menu Scene, 
  * initialize the basic states of the attached variables
+ * 5) Commenting and documenting function and variable descriptions
  */
 
 using System.Collections;
@@ -25,18 +26,23 @@ using TMPro;
 
 public class MainMenuButtonManager : MonoBehaviour
 {
+    // Main Menu elements
     public GameObject PlayButton;
     public GameObject InstructionButton;
     public GameObject BackButton;
     public GameObject Avatar;
+    public TextMeshProUGUI Title;
+
+    // Instruction Screen elements
     public GameObject InstructionsPanels;
     public GameObject DarkenPanel;
-    public TextMeshProUGUI Title;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         // makes sure that only in the main menu affects these buttons
+        // if the current scene is the main menu, initialize game objects
         if (SceneManager.GetActiveScene().buildIndex == (int)Menus.MAINMENU)
         {
             PlayButton.SetActive(true);
@@ -49,52 +55,64 @@ public class MainMenuButtonManager : MonoBehaviour
             Title.enabled = true;
         }
     }
+
+    // Loads the main menu scene
     public void loadMenuScene()
     {
         SceneManager.LoadScene((int)Menus.MAINMENU);
     }
+
+    // loads the game screen
     public void loadGameScene()
     {
         SceneManager.LoadScene((int)Menus.GAME);
     }
 
+    // loads the game over scene
     public void loadGameOverScene()
     {
         SceneManager.LoadScene((int)Menus.GAMEOVER);
     }
 
+    // Turns on the instructions screen by disabling the Main Menu elements
+    // and toggling on the instruction screen elements
     public void EnableInstruction()
     {
         PlayButton.SetActive(false);
         InstructionButton.SetActive(false);
         BackButton.SetActive(true);
+        Avatar.SetActive(false);
+        Title.enabled = false;
+
         InstructionsPanels.SetActive(true);
         DarkenPanel.SetActive(true);
 
-
-        Avatar.SetActive(false);
-        Title.enabled = false;
     }
 
-    // Functions for the Return button on the instructions screen
+  // Turns on the main menu screen by enabling the Main Menu elements
+  // and toggling off the instruction screen elements
     public void DisableInstruction()
     {
         PlayButton.SetActive(true);
         InstructionButton.SetActive(true);
         BackButton.SetActive(false);
+        Avatar.SetActive(true);
+        Title.enabled = true;
+
         InstructionsPanels.SetActive(false);
         DarkenPanel.SetActive(false);
 
-        Avatar.SetActive(true);
-        Title.enabled = true;
     }
 
+    // exiting the application
     public void QuitGame()
     {
         Application.Quit();
     }    
 
 }
+
+// Enumerator for monitoring the different scene indices for level loading
 enum Menus
 {
     MAINMENU = 0,
