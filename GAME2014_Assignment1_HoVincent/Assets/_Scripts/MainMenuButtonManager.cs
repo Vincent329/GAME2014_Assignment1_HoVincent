@@ -28,19 +28,24 @@ public class MainMenuButtonManager : MonoBehaviour
     public GameObject BackButton;
     public GameObject Avatar;
     public GameObject InstructionsPanels;
+    public GameObject DarkenPanel;
     public TextMeshProUGUI Title;
-   
+
     // Start is called before the first frame update
     void Start()
     {
+        // makes sure that only in the main menu affects these buttons
+        if (SceneManager.GetActiveScene().buildIndex == (int)Menus.MAINMENU)
+        {
+            PlayButton.SetActive(true);
+            InstructionButton.SetActive(true);
+            BackButton.SetActive(false);
+            InstructionsPanels.SetActive(false);
+            DarkenPanel.SetActive(false);
 
-        PlayButton.SetActive(true);
-        InstructionButton.SetActive(true);
-        BackButton.SetActive(false);
-        InstructionsPanels.SetActive(false);
-
-        Avatar.SetActive(true);
-        Title.enabled = true;
+            Avatar.SetActive(true);
+            Title.enabled = true;
+        }
     }
     public void loadMenuScene()
     {
@@ -62,24 +67,30 @@ public class MainMenuButtonManager : MonoBehaviour
         InstructionButton.SetActive(false);
         BackButton.SetActive(true);
         InstructionsPanels.SetActive(true);
+        DarkenPanel.SetActive(true);
 
 
         Avatar.SetActive(false);
         Title.enabled = false;
     }
 
+    // Functions for the Return button on the instructions screen
     public void DisableInstruction()
     {
         PlayButton.SetActive(true);
         InstructionButton.SetActive(true);
         BackButton.SetActive(false);
         InstructionsPanels.SetActive(false);
+        DarkenPanel.SetActive(false);
 
         Avatar.SetActive(true);
         Title.enabled = true;
     }
 
-
+    public void QuitGame()
+    {
+        Application.Quit();
+    }    
 
 }
 enum Menus
