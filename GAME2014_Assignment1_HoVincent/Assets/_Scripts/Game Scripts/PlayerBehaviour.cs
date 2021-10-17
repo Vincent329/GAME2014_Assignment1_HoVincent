@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    [Header("Touch Variables")]
     [SerializeField] private float radius;
     [SerializeField] private float dashRadius;
     [SerializeField] private bool moveTrigger;
 
+    [Header("Movement Variables")]
     [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;
+    [Range(1.0f, 5.0f)]
+    [SerializeField] private float dashMultiplier;
+    private float originalSpeed;
+    private float dashSpeed;
 
     // get physics data
     private CircleCollider2D circleCollider;
@@ -27,6 +33,9 @@ public class PlayerBehaviour : MonoBehaviour
         radius = circleCollider.radius;
         moveTrigger = false;
         dragDist = Vector3.zero;
+        originalSpeed = speed;
+        dashSpeed = speed * dashMultiplier;
+
     }
 
     // Update is called once per frame
@@ -34,6 +43,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         TouchEvents();
     }
+
+   
 
     private void TouchEvents()
     {
@@ -60,10 +71,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             moveTrigger = false;
             dragDist = Vector3.zero;
-            rb.velocity = Vector2.zero;
+
+            Deceleration();
+
+            speed = originalSpeed;
         }
     }
 
+    /// <summary>
+    /// Handle the movement of the player using fixed time
+    /// </summary>
     private void FixedUpdate()
     {
         if (moveTrigger)
@@ -72,15 +89,37 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void MovePlayer(Vector3 distance)
     {
-        // normalize the direction of the drag
-        if (dragDist.sqrMagnitude >= radius * radius)
+        float radiusSquared = radius * radius;
+        if (dragDist.sqrMagnitude >= radiusSquared)
         {
+            ResetDrag();
+            // normalize the direction of the drag
             Vector3 direction = distance.normalized;
+            
+            if (dragDist.sqrMagnitude >= radiusSquared*150)
+            {
+                speed = dashSpeed;
+            }  else if (dragDist.sqrMagnitude <= radiusSquared * 25) { 
+                speed = originalSpeed;
+            }
+
             rb.velocity = direction * speed;
-        } else
+        } 
+        else
         {
-            rb.velocity = Vector2.zero;
+            Deceleration();
+
+            speed = originalSpeed;
         }
 
+    }
+    private void Deceleration()
+    {
+        rb.drag = 10;
+    }
+
+    private void ResetDrag()
+    {
+        rb.drag = 0;
     }
 }

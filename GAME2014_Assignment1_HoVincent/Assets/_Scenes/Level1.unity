@@ -14348,7 +14348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637272160}
   m_LocalRotation: {x: -0, y: -0, z: 0.30663314, w: 0.9518278}
-  m_LocalPosition: {x: 0.508, y: -0.441, z: 0}
+  m_LocalPosition: {x: 0.69, y: -0.633, z: 0}
   m_LocalScale: {x: 1.7683, y: 1.7683, z: 1.7683}
   m_Children: []
   m_Father: {fileID: 1653961763}
@@ -14508,7 +14508,8 @@ MonoBehaviour:
   radius: 0
   dashRadius: 0
   moveTrigger: 0
-  speed: 1.12
+  speed: 2.75
+  dashMultiplier: 3.69
 --- !u!50 &1653961765
 Rigidbody2D:
   serializedVersion: 4
@@ -14522,8 +14523,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDrag: 0.83
+  m_AngularDrag: 0.32
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_Interpolate: 0
