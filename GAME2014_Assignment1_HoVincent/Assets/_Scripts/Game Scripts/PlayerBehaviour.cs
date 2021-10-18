@@ -16,6 +16,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float dashMultiplier;
     private float originalSpeed;
     private float dashSpeed;
+    private float rotationAngle;
 
     // get physics data
     private CircleCollider2D circleCollider;
@@ -23,6 +24,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     // dedicated vector for measuring the distance between the player and the touch input
     Touch fingerTouch;
+
+    // distance between finger and avatar
     private Vector3 dragDist;
 
     // Start is called before the first frame update
@@ -35,17 +38,22 @@ public class PlayerBehaviour : MonoBehaviour
         dragDist = Vector3.zero;
         originalSpeed = speed;
         dashSpeed = speed * dashMultiplier;
-
+        rotationAngle = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        TouchEvents();
+        // touch differentiation in update?
+       if (Input.touchCount > 0)
+            TouchEvents();
+        
     }
 
    
-
+    /// <summary>
+    /// Perpetually called by the update function to handle touch events
+    /// </summary>
     private void TouchEvents()
     {
         fingerTouch = Input.GetTouch(0);
@@ -59,14 +67,15 @@ public class PlayerBehaviour : MonoBehaviour
         {
             if (dragDist.sqrMagnitude <= radius * radius)
             {
-                Debug.Log("Within Bounds");
                 moveTrigger = true;
             }
             else
             {
                 // Attack Logic
+                Debug.Log("Attack here");
             }
         }
+
         if (fingerTouch.phase == TouchPhase.Ended)
         {
             moveTrigger = false;
@@ -102,9 +111,14 @@ public class PlayerBehaviour : MonoBehaviour
             }  else if (dragDist.sqrMagnitude <= radiusSquared * 25) { 
                 speed = originalSpeed;
             }
-
+            
             rb.velocity = direction * speed;
-        } 
+            // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
+            rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+
+            transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
+
+        }
         else
         {
             Deceleration();
