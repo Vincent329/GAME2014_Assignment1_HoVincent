@@ -33,11 +33,24 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
+    - {fileID: 2800000, guid: 96a475223f290e14bb722a278474f923, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
+  - {fileID: -1460051218453901550, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: -2802170115178134076, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 1990761401807416502, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 2498600745362325096, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 6122353463158805106, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: -5291795659545861544, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 6196253038560480931, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 3666826041032505176, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 1511750141949519882, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 2362703192736904719, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: 2613216510294903618, guid: 96a475223f290e14bb722a278474f923, type: 3}
+  - {fileID: -2923153050870398308, guid: 96a475223f290e14bb722a278474f923, type: 3}
   - {fileID: 4949319591122959358, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
   - {fileID: -7609011092048415277, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
   - {fileID: 6138582509724729735, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
@@ -55,6 +68,18 @@ SpriteAtlas:
   - {fileID: -5111642285134842206, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
   - {fileID: 4026123283399796845, guid: 2d8cad378902a2349992c834ef28c10e, type: 3}
   m_PackedSpriteNamesToIndex:
+  - WallsNoGround_7
+  - WallsNoGround_6
+  - WallsNoGround_5
+  - WallsNoGround_4
+  - WallsNoGround_3
+  - WallsNoGround_2
+  - WallsNoGround_1
+  - WallsNoGround_0
+  - WallsNoGround_9
+  - WallsNoGround_8
+  - WallsNoGround_10
+  - WallsNoGround_11
   - ArenaTileset_10
   - ArenaTileset_11
   - ArenaTileset_12

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Turret : Enemy
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,10 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         
+    }
+
+    protected override void Action()
+    {
+        Debug.Log("Turret Action");
     }
 }
