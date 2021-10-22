@@ -9,7 +9,7 @@
  * 
  * Revision History:
  * 1) created script
- * 2) setting it up as a singleton
+ * 2) Set up data values, now all you need is to right click in the Scriptable Objects folder, create an object, and set the values
  */
 
 using System.Collections;
@@ -22,14 +22,14 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PickupItem", menuName = "Pickups/Pickup Item")]
 public class PickupItem : ScriptableObject
 {
-    public ItemType itemType;
+    public ItemType itemType; 
     public string itemName = "Item";
 
     [TextArea]
     public string description = "Basic Item Description";
 
     public float healthValue = 0.0f;
-    public float timerValue = 0.0f;
+    public float exciteValue = 0.0f;
     public float scoreValue = 0.0f;
 
     public Sprite sprite = null;

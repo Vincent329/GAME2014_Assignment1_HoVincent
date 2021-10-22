@@ -18,33 +18,63 @@ using UnityEngine;
 
 public class EnemyFactory 
 {
-    //private static EnemyFactory instance = null;
+    private static EnemyFactory instance = null;
 
-    //// reference to enemy prefabs
-    //[SerializeField]
-    //private GameObject ogreEnemy;
-    //private GameObject turretEnemy;
-    //private GameObject bounceEnemy;
+    // reference to enemy prefabs
+    [SerializeField]
+    private GameObject ogreEnemy;
+    private GameObject turretEnemy;
+    private GameObject bounceEnemy;
 
-    //private MainMenuButtonManager manager;
-    //// private constructor for the enemy factory
-    //private EnemyFactory()
-    //{
+    private MainMenuButtonManager manager;
 
-    //}
+    // private constructor for the enemy factory
+    private EnemyFactory()
+    {
+        Initialize();
+    }
 
-    //// return a static instance of the enemy factory so that it can be called anywhere
-    //public static EnemyFactory Instance()
-    //{
-    //    if (instance == null)
-    //    {
-    //        instance = new EnemyFactory();
-    //    }
-    //    return instance;
-    //}
+    // return a static instance of the enemy factory so that it can be called anywhere
+    public static EnemyFactory Instance()
+    {
+        if (instance == null)
+        {
+            instance = new EnemyFactory();
+        }
+        return instance;
+    }
 
-    //private void Initialize()
-    //{
+    private void Initialize()
+    {
+        ogreEnemy = Resources.Load("Prefabs/Ogre") as GameObject;
+        turretEnemy = Resources.Load("Prefabs/Turret") as GameObject;
+        //bounceEnemy = Resources.Load("Prefabs/Bounce") as GameObject;
 
-    //}
+        manager = GameObject.FindObjectOfType<MainMenuButtonManager>();
+    }
+
+    public GameObject createEnemy(EnemyType enemyType = EnemyType.OGRE)
+    {
+        GameObject tempEnemy = null;
+        switch (enemyType)
+        {
+
+            // being very explicit with the instantiate function
+            case EnemyType.OGRE:
+                tempEnemy = MonoBehaviour.Instantiate(ogreEnemy);
+                break;
+            case EnemyType.TURRET:
+                tempEnemy = MonoBehaviour.Instantiate(turretEnemy);
+                break;
+            case EnemyType.BOUNCE:
+                tempEnemy = MonoBehaviour.Instantiate(bounceEnemy);
+                break;
+        }
+        // get the parent transform of the bullet, be the game controller's game object transform
+        tempEnemy.transform.parent = manager.gameObject.transform;
+        tempEnemy.SetActive(false);
+
+        return tempEnemy;
+    }
 }
+

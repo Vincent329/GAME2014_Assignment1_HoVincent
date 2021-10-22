@@ -1,9 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    // UI values
+    [Header("Health Values")]
+    [SerializeField] private float healthValue;
+    [SerializeField] private float maxHealthValue;
+
+    [SerializeField] private Slider healthSlider; // get slider values
+
+
     [Header("Touch Variables")]
     [SerializeField] private float radius;
     [SerializeField] private float dashRadius;
@@ -31,14 +40,19 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // get components necessary
         circleCollider = GetComponent<CircleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+
         radius = circleCollider.radius;
         moveTrigger = false;
         dragDist = Vector3.zero;
+        healthValue = 100;
         originalSpeed = speed;
         dashSpeed = speed * dashMultiplier;
         rotationAngle = 0;
+
+        healthSlider.maxValue = healthValue;
     }
 
     // Update is called once per frame
@@ -73,6 +87,7 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // Attack Logic
                 Debug.Log("Attack here");
+                EnemyManager.GetInstance().GetEnemy(touchPos);
             }
         }
 
@@ -115,14 +130,11 @@ public class PlayerBehaviour : MonoBehaviour
             rb.velocity = direction * speed;
             // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
             rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
-
             transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
-
         }
         else
         {
             Deceleration();
-
             speed = originalSpeed;
         }
 
@@ -135,5 +147,44 @@ public class PlayerBehaviour : MonoBehaviour
     private void ResetDrag()
     {
         rb.drag = 0;
+    }
+
+    /// <summary>
+    /// public function to alter the value level of the player's health after damage change
+    /// </summary>
+    /// <param name="changeValue"></param>
+    public void HealthChange(float changeValue)
+    {
+        healthValue -= changeValue;
+        healthSlider.value = healthValue;
+    }
+
+    public void ItemHealthChange(Item inItem)
+    {
+        switch (inItem.GetItemType)
+        {
+            case (ItemType.HEALTH):
+            {
+                healthValue += inItem.HealthValue;
+                healthSlider.value = healthValue;
+                break;
+            } case (ItemType.EXCITEMENT):
+            {
+                //healthValue += inItem.HealthValue;
+            break;
+            }
+            case (ItemType.SCORECOIN):
+            {
+                //healthValue += inItem.HealthValue;
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    public void PushBack()
+    {
+
     }
 }
