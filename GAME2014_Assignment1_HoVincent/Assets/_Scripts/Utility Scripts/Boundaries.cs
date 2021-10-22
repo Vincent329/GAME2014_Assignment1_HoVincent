@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public struct Boundaries
 {
-    public float min;
-    public float max;
+    public float absY;
+    public float absX;
 }

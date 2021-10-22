@@ -87,7 +87,6 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // Attack Logic
                 Debug.Log("Attack here");
-                EnemyManager.GetInstance().GetEnemy(touchPos);
             }
         }
 

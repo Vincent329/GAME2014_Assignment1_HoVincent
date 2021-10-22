@@ -26,7 +26,7 @@ public class EnemyFactory
     private GameObject turretEnemy;
     private GameObject bounceEnemy;
 
-    private MainMenuButtonManager manager;
+    private EnemySpawner manager;
 
     // private constructor for the enemy factory
     private EnemyFactory()
@@ -44,13 +44,16 @@ public class EnemyFactory
         return instance;
     }
 
+    /// <summary>
+    /// Goes through the Resources folder and loads the enemies as their own respective game objects
+    /// </summary>
     private void Initialize()
     {
         ogreEnemy = Resources.Load("Prefabs/Ogre") as GameObject;
         turretEnemy = Resources.Load("Prefabs/Turret") as GameObject;
-        //bounceEnemy = Resources.Load("Prefabs/Bounce") as GameObject;
+        bounceEnemy = Resources.Load("Prefabs/Bounce") as GameObject;
 
-        manager = GameObject.FindObjectOfType<MainMenuButtonManager>();
+        manager = GameObject.FindObjectOfType<EnemySpawner>();
     }
 
     public GameObject createEnemy(EnemyType enemyType = EnemyType.OGRE)

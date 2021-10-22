@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 1
   itemName: Excitement Potion
-  description: 'Ups the Excitement BAr
+  description: 'increases the Excitement Bar
 
 '
   healthValue: 0
-  exciteValue: 0
+  exciteValue: 15
   scoreValue: 0
   sprite: {fileID: 21300026, guid: ddf8838d0a06d8d4c9dec9e3bed69260, type: 3}

@@ -81,7 +81,7 @@ public class EnemyManager
     /// This method returns a bullet back into the bullet pool
     /// </summary>
     /// <param name="returnedBullet"></param>
-    public void ReturnBullet(GameObject returnedEnemy, EnemyType eType = EnemyType.OGRE)
+    public void ReturnEnemy(GameObject returnedEnemy, EnemyType eType = EnemyType.OGRE)
     {
         returnedEnemy.SetActive(false);
 

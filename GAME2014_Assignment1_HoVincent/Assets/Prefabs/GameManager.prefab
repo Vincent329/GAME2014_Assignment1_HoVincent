@@ -47,6 +47,6 @@ MonoBehaviour:
   InstructionButton: {fileID: 0}
   BackButton: {fileID: 0}
   Avatar: {fileID: 0}
+  Title: {fileID: 0}
   InstructionsPanels: {fileID: 0}
   DarkenPanel: {fileID: 0}
-  Title: {fileID: 0}

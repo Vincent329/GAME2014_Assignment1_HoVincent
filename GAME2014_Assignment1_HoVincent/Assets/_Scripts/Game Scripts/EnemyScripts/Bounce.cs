@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bounce : MonoBehaviour
+public class Bounce : Enemy
 {
     // Start is called before the first frame update
     void Start()
@@ -14,5 +14,11 @@ public class Bounce : MonoBehaviour
     void Update()
     {
         
+    }
+
+    protected override void Action()
+    {
+        Debug.Log("Bounce Action");
+
     }
 }

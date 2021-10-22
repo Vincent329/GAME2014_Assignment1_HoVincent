@@ -2,5 +2,6 @@ public enum ItemType
 {
     HEALTH,
     EXCITEMENT,
-    SCORECOIN
+    SCORECOIN,
+    NUM_ITEM_TYPES
 }
