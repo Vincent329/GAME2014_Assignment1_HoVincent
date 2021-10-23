@@ -46,6 +46,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5206300264094864123}
   - component: {fileID: 5206300264094864122}
+  - component: {fileID: 7470925160676414417}
   m_Layer: 5
   m_Name: ExcitementValue
   m_TagString: Untagged
@@ -127,6 +128,20 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7470925160676414417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5206300264094864120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ce8cd082efde5e43a1ba57e33582e12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderGainRate: 0
+  exciteSlider: {fileID: 0}
 --- !u!1 &5206300264163332081
 GameObject:
   m_ObjectHideFlags: 0
@@ -1807,6 +1822,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3efbef10a53611449d1b77e695f7b04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreValue: 0
+  scoreMultiplier: 0
 --- !u!1 &5206300265877641512
 GameObject:
   m_ObjectHideFlags: 0

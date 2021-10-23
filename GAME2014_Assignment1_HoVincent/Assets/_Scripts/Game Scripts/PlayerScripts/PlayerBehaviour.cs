@@ -32,6 +32,7 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float radius;
     [SerializeField] private float dashRadius;
     [SerializeField] private bool moveTrigger;
+    [SerializeField] private bool attackTrigger;
 
     [Header("Movement Variables")]
     [Range(0.1f, 10.0f)]
@@ -107,12 +108,14 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // Attack Logic
                 Debug.Log("Attack here");
+                attackTrigger = true;
             }
         }
 
         if (fingerTouch.phase == TouchPhase.Ended)
         {
             moveTrigger = false;
+            attackTrigger = false;
             dragDist = Vector3.zero;
 
             Deceleration();
