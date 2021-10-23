@@ -17,7 +17,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Pickup data container class as a generic hodler for pickups
+/// Pickup data container class as a generic holder for pickups
 /// </summary>
 [CreateAssetMenu(fileName = "PickupItem", menuName = "Pickups/Pickup Item")]
 public class PickupItem : ScriptableObject
@@ -30,7 +30,7 @@ public class PickupItem : ScriptableObject
 
     public float healthValue = 0.0f;
     public float exciteValue = 0.0f;
-    public float scoreValue = 0.0f;
+    public int scoreValue = 0;
 
     public Sprite sprite = null;
 

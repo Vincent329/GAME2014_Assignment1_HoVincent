@@ -5,9 +5,12 @@ using UnityEngine;
 public class Bounce : Enemy
 {
     // Start is called before the first frame update
+    private Rigidbody2D rb;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
+        rb.velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0.0f) * Speed;
     }
 
     // Update is called once per frame
@@ -18,7 +21,18 @@ public class Bounce : Enemy
 
     protected override void Action()
     {
-        Debug.Log("Bounce Action");
 
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerBehaviour>() != null)
+        {
+            PlayerBehaviour player = collision.gameObject.GetComponent<PlayerBehaviour>();
+
+            player.HealthChange(15.0f);
+            EnemyManager.GetInstance().ReturnEnemy(gameObject);
+
+        }
     }
 }

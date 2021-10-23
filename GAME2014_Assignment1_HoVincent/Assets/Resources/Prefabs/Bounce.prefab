@@ -98,7 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2d97c21cd1aca46bcc8601bba7607b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  pointValue: 3
+  speed: 1.93
   detected: 0
   rotationAngle: 0
   direction: {x: 0, y: 0}

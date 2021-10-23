@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
+    [Header("Point Value")]
+    [SerializeField] private float pointValue;
+    protected float PointValue => pointValue;
 
     [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;

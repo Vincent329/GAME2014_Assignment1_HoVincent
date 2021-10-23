@@ -54,15 +54,7 @@ public class Ogre : Enemy
         Detected = true;    // use the setter in the abstract class
     }
 
-    /// <summary>
-    /// testing returning an enemy
-    /// </summary>
-    /// <param name="collision"></param>
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.GetComponent<PlayerBehaviour>() != null) // if the colliding object has a component type of PlayerBehaviour
-            EnemyManager.GetInstance().ReturnEnemy(gameObject);
-    }
+  
 
     private void Patrolling()
     {
@@ -85,5 +77,15 @@ public class Ogre : Enemy
     private void UpdatePatrolLocation()
     {
         patrolPoint = new Vector3(Random.Range(-patrolBounds.absX, patrolBounds.absX), Random.Range(-patrolBounds.absY, patrolBounds.absY), 0.0f);
+    }
+    
+    /// <summary>
+    /// testing returning an enemy
+    /// </summary>
+    /// <param name="collision"></param>
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<PlayerBehaviour>() != null) // if the colliding object has a component type of PlayerBehaviour
+            EnemyManager.GetInstance().ReturnEnemy(gameObject);
     }
 }

@@ -1,3 +1,18 @@
+//-----------PlayerBehaviour.cs------------
+/* Name: Vincent Ho
+ * Student Number: 101334300
+ * 
+ * Date Last Modified: October 23, 2021
+ * 
+ * Description: This script is used as a manager class for the player's behaviour
+ * Handles all values such as movement, attacking, UI updating
+ * 
+ * Revision History:
+ * 1) created script
+ * 2) Created movement logic based on touch input
+
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
     // get physics data
     private CircleCollider2D circleCollider;
     private Rigidbody2D rb;
+    private Animator anim;
 
     // dedicated vector for measuring the distance between the player and the touch input
     Touch fingerTouch;
@@ -44,16 +60,20 @@ public class PlayerBehaviour : MonoBehaviour
         // get components necessary
         circleCollider = GetComponent<CircleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
 
         radius = circleCollider.radius;
         moveTrigger = false;
         dragDist = Vector3.zero;
         healthValue = 100;
+        maxHealthValue = healthValue;
+        scoreValue = 0;
         originalSpeed = speed;
         dashSpeed = speed * dashMultiplier;
         rotationAngle = 0;
 
-        healthSlider.maxValue = healthValue;
+        healthSlider.maxValue = maxHealthValue;
+        
         scoreText = GameObject.FindObjectOfType<Score>();
     }
 
@@ -100,6 +120,7 @@ public class PlayerBehaviour : MonoBehaviour
             Deceleration();
 
             speed = originalSpeed;
+            anim.SetFloat("Velocity", 0);
         }
     }
 
@@ -138,7 +159,7 @@ public class PlayerBehaviour : MonoBehaviour
             Deceleration();
             speed = originalSpeed;
         }
-
+        anim.SetFloat("Velocity", rb.velocity.magnitude);
     }
     private void Deceleration()
     {
@@ -157,6 +178,10 @@ public class PlayerBehaviour : MonoBehaviour
     public void HealthChange(float changeValue)
     {
         healthValue -= changeValue;
+        if (healthValue <= 0.0f)
+        {
+            healthValue = 0.0f;
+        }
         healthSlider.value = healthValue;
     }
 
@@ -171,17 +196,24 @@ public class PlayerBehaviour : MonoBehaviour
             case (ItemType.HEALTH):
             {
                 healthValue += inItem.HealthValue;
+                if (healthValue >= maxHealthValue)
+                    healthValue = maxHealthValue;
                 healthSlider.value = healthValue;
                 break;
             } case (ItemType.EXCITEMENT):
             {
-                //healthValue += inItem.HealthValue;
+                    //healthValue += inItem.HealthValue;
+                    Debug.Log("Pickup Excite");
             break;
             }
             case (ItemType.SCORECOIN):
             {
-                //healthValue += inItem.HealthValue;
-                break;
+                    //healthValue += inItem.HealthValue;
+                    Debug.Log("Pickup Coin");
+                    scoreValue += inItem.ScoreValue;
+                    scoreText.GetComponent<TMPro.TextMeshProUGUI>().text = ": " + scoreValue;
+
+                    break;
             }
             default:
                 break;

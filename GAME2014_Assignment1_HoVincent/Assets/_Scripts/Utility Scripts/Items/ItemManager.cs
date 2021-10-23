@@ -79,7 +79,7 @@ public class ItemManager : MonoBehaviour
     /// This method returns a bullet back into the bullet pool
     /// </summary>
     /// <param name="returnedBullet"></param>
-    public void ReturnEnemy(GameObject returnedItem, ItemType itemType = ItemType.HEALTH)
+    public void ReturnItem(GameObject returnedItem, ItemType itemType = ItemType.HEALTH)
     {
         returnedItem.SetActive(false);
 

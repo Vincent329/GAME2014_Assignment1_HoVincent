@@ -31,14 +31,14 @@ public class Item : MonoBehaviour
 
     private float healthValue;
     private float exciteValue;
-    private float scoreValue;
+    private int scoreValue;
     
     /// <summary>
     /// getters for the item's values
     /// </summary>
     public float HealthValue => healthValue;
     public float ExciteValue => exciteValue;
-    public float ScoreValue => scoreValue;
+    public int ScoreValue => scoreValue;
 
   
 
@@ -65,7 +65,9 @@ public class Item : MonoBehaviour
         if (test != null)
         {
             test.ItemHealthChange(gameObject.GetComponent<Item>());
-            Destroy(gameObject); // do an item pool instead
+            ItemManager.GetInstance().ReturnItem(gameObject);
+
+            Debug.Log("Return Item");
         }
     }
 }
