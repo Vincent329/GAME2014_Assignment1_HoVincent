@@ -24,10 +24,9 @@ public class PlayerBehaviour : MonoBehaviour
     [Header("UI Values")]
     [SerializeField] private float healthValue;
     [SerializeField] private float maxHealthValue;
-    [SerializeField] private int scoreValue;
 
     [SerializeField] private Slider healthSlider; // get slider values, a drag in for now, but may have to decouple
-    [SerializeField] private Score scoreText;
+    [SerializeField] private Score scoreHandle;
 
     [Header("Touch Variables")]
     [SerializeField] private float radius;
@@ -67,14 +66,13 @@ public class PlayerBehaviour : MonoBehaviour
         dragDist = Vector3.zero;
         healthValue = 100;
         maxHealthValue = healthValue;
-        scoreValue = 0;
         originalSpeed = speed;
         dashSpeed = speed * dashMultiplier;
         rotationAngle = 0;
 
         healthSlider.maxValue = maxHealthValue;
         
-        scoreText = GameObject.FindObjectOfType<Score>();
+        scoreHandle = GameObject.FindObjectOfType<Score>();
     }
 
     // Update is called once per frame
@@ -189,7 +187,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// called from the item class, it should increase values from a given item
     /// </summary>
     /// <param name="inItem"></param>
-    public void ItemHealthChange(Item inItem)
+    public void ItemChange(Item inItem)
     {
         switch (inItem.GetItemType)
         {
@@ -210,8 +208,8 @@ public class PlayerBehaviour : MonoBehaviour
             {
                     //healthValue += inItem.HealthValue;
                     Debug.Log("Pickup Coin");
-                    scoreValue += inItem.ScoreValue;
-                    scoreText.GetComponent<TMPro.TextMeshProUGUI>().text = ": " + scoreValue;
+                    scoreHandle.ScoreValue += inItem.ScoreValue;
+                    scoreHandle.UpdateScore();
 
                     break;
             }

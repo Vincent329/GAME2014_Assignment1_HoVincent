@@ -64,7 +64,7 @@ public class Item : MonoBehaviour
         PlayerBehaviour test = collision.gameObject.GetComponent<PlayerBehaviour>();
         if (test != null)
         {
-            test.ItemHealthChange(gameObject.GetComponent<Item>());
+            test.ItemChange(gameObject.GetComponent<Item>());
             ItemManager.GetInstance().ReturnItem(gameObject);
 
             Debug.Log("Return Item");
