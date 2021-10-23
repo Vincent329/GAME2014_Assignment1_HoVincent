@@ -40,12 +40,11 @@ public class EnemyManager
     {
         enemyPools = new List<Queue<GameObject>>();
 
-        // instantiate  new queue collections based on number of bullet types
+        // instantiate  new queue collections based on number of enemy types
         for (int count = 0; count < (int)EnemyType.NUM_ENEMY_TYPES; count++)
         {
             enemyPools.Add(new Queue<GameObject>()); // remember that it's a LIST, not an ARRAY
         }
-        // find an object of type bullet factory in the hierarchy
 
     }
 
@@ -69,7 +68,7 @@ public class EnemyManager
         {
             AddEnemy(eType);
         }
-        // get the bullet from the queue
+        // get the enemy from the queue
         temp_Enemy = enemyPools[(int)eType].Dequeue();
 
         temp_Enemy.transform.position = spawnPosition;
