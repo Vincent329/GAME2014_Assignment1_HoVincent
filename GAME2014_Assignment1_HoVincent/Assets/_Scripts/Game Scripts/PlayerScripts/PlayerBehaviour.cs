@@ -6,12 +6,13 @@ using UnityEngine.UI;
 public class PlayerBehaviour : MonoBehaviour
 {
     // UI values
-    [Header("Health Values")]
+    [Header("UI Values")]
     [SerializeField] private float healthValue;
     [SerializeField] private float maxHealthValue;
+    [SerializeField] private int scoreValue;
 
-    [SerializeField] private Slider healthSlider; // get slider values
-
+    [SerializeField] private Slider healthSlider; // get slider values, a drag in for now, but may have to decouple
+    [SerializeField] private Score scoreText;
 
     [Header("Touch Variables")]
     [SerializeField] private float radius;
@@ -53,6 +54,7 @@ public class PlayerBehaviour : MonoBehaviour
         rotationAngle = 0;
 
         healthSlider.maxValue = healthValue;
+        scoreText = GameObject.FindObjectOfType<Score>();
     }
 
     // Update is called once per frame
@@ -158,6 +160,10 @@ public class PlayerBehaviour : MonoBehaviour
         healthSlider.value = healthValue;
     }
 
+    /// <summary>
+    /// called from the item class, it should increase values from a given item
+    /// </summary>
+    /// <param name="inItem"></param>
     public void ItemHealthChange(Item inItem)
     {
         switch (inItem.GetItemType)

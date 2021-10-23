@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7076291085452050802}
   - component: {fileID: 855755281080971580}
   - component: {fileID: 2825375698758430389}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Turret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2f1c834167a25ec43991c78daad2335b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,9 +97,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07f2a99ca94ae9409a1bf0945c2d5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 0.1
   detected: 0
   rotationAngle: 0
+  direction: {x: 0, y: 0}
   player: {fileID: 0}
 --- !u!58 &2825375698758430389
 CircleCollider2D:

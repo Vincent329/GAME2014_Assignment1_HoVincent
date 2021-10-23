@@ -347,7 +347,7 @@ TilemapCollider2D:
   m_GameObject: {fileID: 126419244}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 40281e1380fd99f49882461f50ef1b77, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2390,7 +2390,7 @@ MonoBehaviour:
   bounds:
     absY: 3
     absX: 7.4
-  maxEnemies: 5
+  maxEnemies: 20
 --- !u!4 &254116144
 Transform:
   m_ObjectHideFlags: 0
@@ -2601,7 +2601,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1572438134472076242, guid: 15b5589eea79ddd4a8b4eebed34db61a, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1572438134472076242, guid: 15b5589eea79ddd4a8b4eebed34db61a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3475,7 +3475,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1326205697 stripped
 Transform:
@@ -3600,7 +3600,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: e1e8d89e1efb56640a68a233372cd7f2, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.107
+  m_Volume: 0.038
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -15561,7 +15561,7 @@ RectTransform:
   - {fileID: 98886042}
   - {fileID: 33242258}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -15766,7 +15766,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4cd506690a4ef2c408ded02b02e29a86, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.388
+  m_Volume: 0.086
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -16062,6 +16062,7 @@ GameObject:
   - component: {fileID: 2100238690}
   - component: {fileID: 2100238692}
   - component: {fileID: 2100238691}
+  - component: {fileID: 2100238693}
   m_Layer: 5
   m_Name: ScoreText
   m_TagString: Untagged
@@ -16186,6 +16187,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2100238689}
   m_CullTransparentMesh: 1
+--- !u!114 &2100238693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2100238689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3efbef10a53611449d1b77e695f7b04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2142576736
 GameObject:
   m_ObjectHideFlags: 0

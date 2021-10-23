@@ -54,6 +54,7 @@ public class EnemyManager
         var temp_Enemy = EnemyFactory.Instance().createEnemy(eType);
         enemyPools[(int)eType].Enqueue(temp_Enemy);
     }
+
     /// <summary>
     /// This method removes an enemy prefab from the enemy pool
     /// and returns a reference to it.

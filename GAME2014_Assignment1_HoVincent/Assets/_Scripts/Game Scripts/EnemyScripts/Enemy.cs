@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
 
-    [Range(0.1f, 100.0f)]
+    [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;
     protected float Speed
     {
@@ -85,9 +85,9 @@ public abstract class Enemy : MonoBehaviour
     protected virtual void Action()
     {
         Vector2 position = player.transform.position - transform.position;
-        Vector2 direction = position.normalized;
+        direction = position.normalized;
 
-        RotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+        RotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90; // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
         transform.rotation = Quaternion.AngleAxis(RotationAngle, Vector3.forward);
     }    
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6602110752880479481}
   - component: {fileID: 8575256077249049685}
   - component: {fileID: -4523697363513043314}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Bounce
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -98,6 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a2d97c21cd1aca46bcc8601bba7607b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 0
+  detected: 0
+  rotationAngle: 0
+  direction: {x: 0, y: 0}
+  player: {fileID: 0}
 --- !u!50 &8575256077249049685
 Rigidbody2D:
   serializedVersion: 4

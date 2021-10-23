@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1905443399856622775}
   - component: {fileID: 253769750981903187}
   - component: {fileID: 3108136569153096383}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ogre
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,10 +99,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd195023fd6d10f4c95bc642e97bebb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 65.1
+  speed: 1.35
   detected: 0
   rotationAngle: 0
+  direction: {x: 0, y: 0}
   player: {fileID: 0}
+  patrolPoint: {x: 0, y: 0, z: 0}
+  patrolBounds:
+    absY: 3
+    absX: 7.4
 --- !u!58 &1905443399856622775
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -134,7 +139,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.3
+  m_Radius: 2.37
 --- !u!50 &3108136569153096383
 Rigidbody2D:
   serializedVersion: 4

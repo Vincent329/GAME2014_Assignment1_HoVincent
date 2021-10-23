@@ -11,8 +11,6 @@ public class EnemySpawner : MonoBehaviour
 
     [SerializeField] private Boundaries bounds;
     [SerializeField] private int maxEnemies;
-
-
    
     void Start()
     {
