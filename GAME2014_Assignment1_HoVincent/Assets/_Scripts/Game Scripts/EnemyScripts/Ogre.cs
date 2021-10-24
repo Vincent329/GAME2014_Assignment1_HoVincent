@@ -85,7 +85,11 @@ public class Ogre : Enemy
     /// <param name="collision"></param>
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.GetComponent<PlayerBehaviour>() != null) // if the colliding object has a component type of PlayerBehaviour
-            EnemyManager.GetInstance().ReturnEnemy(gameObject);
+        PlayerBehaviour player = collision.gameObject.GetComponent<PlayerBehaviour>();
+        if (player != null) // if the colliding object has a component type of PlayerBehaviour
+        {
+            Vector2 dist = player.transform.position - transform.position;
+            player.PushBack(dist);
+        }
     }
 }

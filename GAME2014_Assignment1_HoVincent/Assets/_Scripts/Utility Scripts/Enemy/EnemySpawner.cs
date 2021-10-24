@@ -38,7 +38,6 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy(Vector2 spawnPos)
     {
         int enemyCount = GameObject.FindObjectsOfType<Enemy>().Length + 1;
-        Debug.Log(enemyCount);
         if (enemyCount <= maxEnemies)
         {
 

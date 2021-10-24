@@ -27,6 +27,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private Slider healthSlider; // get slider values, a drag in for now, but may have to decouple
     [SerializeField] private Score scoreHandle;
+    [SerializeField] private ExcitementBar excitementHandle;
 
     [Header("Touch Variables")]
     [SerializeField] private float radius;
@@ -48,6 +49,7 @@ public class PlayerBehaviour : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    [SerializeField] private PlayerAttack attackHandle;
     // dedicated vector for measuring the distance between the player and the touch input
     Touch fingerTouch;
 
@@ -74,6 +76,8 @@ public class PlayerBehaviour : MonoBehaviour
         healthSlider.maxValue = maxHealthValue;
         
         scoreHandle = GameObject.FindObjectOfType<Score>();
+        excitementHandle = GameObject.FindObjectOfType<ExcitementBar>();
+        attackHandle = GameObject.FindObjectOfType<PlayerAttack>();
     }
 
     // Update is called once per frame
@@ -108,7 +112,10 @@ public class PlayerBehaviour : MonoBehaviour
             {
                 // Attack Logic
                 Debug.Log("Attack here");
-                attackTrigger = true;
+                moveTrigger = false;
+                attackTrigger = true; 
+                
+                anim.Play("SwordAnim",0,0);
             }
         }
 
@@ -132,6 +139,11 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (moveTrigger)
             MovePlayer(dragDist);
+        if (attackTrigger)
+        {
+            // do something
+        }
+
     }
 
     private void MovePlayer(Vector3 distance)
@@ -203,25 +215,31 @@ public class PlayerBehaviour : MonoBehaviour
                 break;
             } case (ItemType.EXCITEMENT):
             {
-                    //healthValue += inItem.HealthValue;
-                    Debug.Log("Pickup Excite");
-            break;
+                excitementHandle.GetComponent<Slider>().value += inItem.ExciteValue;
+                break;
             }
             case (ItemType.SCORECOIN):
             {
-                    //healthValue += inItem.HealthValue;
-                    Debug.Log("Pickup Coin");
-                    scoreHandle.ScoreValue += inItem.ScoreValue;
-                    scoreHandle.UpdateScore();
+                scoreHandle.ScoreValue += inItem.ScoreValue;
+                scoreHandle.UpdateScore();
 
-                    break;
+                break;
             }
             default:
                 break;
         }
     }
 
-    public void PushBack()
+    public void AttackStart()
+    {
+        attackHandle.ActivateHitBox();
+    }
+    public void AttackEnd()
+    {
+        attackHandle.DeactivateHitbox();
+
+    }
+    public void PushBack(Vector2 hitVector)
     {
 
     }

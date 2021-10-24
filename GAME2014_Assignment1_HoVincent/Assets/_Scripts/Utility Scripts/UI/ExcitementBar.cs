@@ -9,6 +9,7 @@ public class ExcitementBar : MonoBehaviour
     [SerializeField] private float sliderGainRate;
     // Start is called before the first frame update
     [SerializeField] private Slider exciteSlider;
+    [SerializeField] private MultiplierDisplay multDisplayHandle;
 
     private Score scoreObject;
 
@@ -16,7 +17,7 @@ public class ExcitementBar : MonoBehaviour
     {
         exciteSlider = GetComponent<Slider>();
         scoreObject = GameObject.FindObjectOfType<Score>();
-
+        multDisplayHandle = GameObject.FindObjectOfType<MultiplierDisplay>();
         exciteSlider.value = 0;
         exciteSlider.maxValue = 100;
     }
@@ -31,6 +32,7 @@ public class ExcitementBar : MonoBehaviour
         {
             scoreObject.ScoreMultiplier += 0.25f;
             ResetBar();
+            multDisplayHandle.UpdateHandle();
         }
     }
 
