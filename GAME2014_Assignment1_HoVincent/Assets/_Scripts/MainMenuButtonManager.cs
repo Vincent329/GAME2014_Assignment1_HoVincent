@@ -36,11 +36,15 @@ public class MainMenuButtonManager : MonoBehaviour
     // Instruction Screen elements
     public GameObject InstructionsPanels;
     public GameObject DarkenPanel;
+
+    private AudioSource audioSource;
     
 
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         // makes sure that only in the main menu affects these buttons
         // if the current scene is the main menu, initialize game objects
         if (SceneManager.GetActiveScene().buildIndex == (int)Menus.MAINMENU)
@@ -59,12 +63,14 @@ public class MainMenuButtonManager : MonoBehaviour
     // Loads the main menu scene
     public void loadMenuScene()
     {
+        audioSource.PlayOneShot(audioSource.clip);
         SceneManager.LoadScene((int)Menus.MAINMENU);
     }
 
     // loads the game screen
     public void loadGameScene()
     {
+        audioSource.PlayOneShot(audioSource.clip);
         SceneManager.LoadScene((int)Menus.GAME);
     }
 
@@ -78,6 +84,8 @@ public class MainMenuButtonManager : MonoBehaviour
     // and toggling on the instruction screen elements
     public void EnableInstruction()
     {
+        audioSource.PlayOneShot(audioSource.clip);
+
         PlayButton.SetActive(false);
         InstructionButton.SetActive(false);
         BackButton.SetActive(true);
@@ -93,6 +101,8 @@ public class MainMenuButtonManager : MonoBehaviour
   // and toggling off the instruction screen elements
     public void DisableInstruction()
     {
+        audioSource.PlayOneShot(audioSource.clip);
+
         PlayButton.SetActive(true);
         InstructionButton.SetActive(true);
         BackButton.SetActive(false);
@@ -107,6 +117,8 @@ public class MainMenuButtonManager : MonoBehaviour
     // exiting the application
     public void QuitGame()
     {
+        audioSource.PlayOneShot(audioSource.clip);
+
         Application.Quit();
     }    
 

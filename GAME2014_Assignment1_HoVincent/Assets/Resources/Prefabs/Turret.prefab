@@ -137,7 +137,7 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   player: {fileID: 0}
   attackTimer: 0
-  attackTrigger: 2
+  attackTrigger: 4
   bulletSpawnPos: {fileID: 2966617441625549674}
 --- !u!58 &2825375698758430389
 CircleCollider2D:

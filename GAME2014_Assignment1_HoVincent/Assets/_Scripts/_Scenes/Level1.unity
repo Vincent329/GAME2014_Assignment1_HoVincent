@@ -14018,7 +14018,7 @@ Tilemap:
     m_Data: {r: 1, g: 1, b: 1, a: 1}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.8517093, b: 0.6367924, a: 1}
   m_Origin: {x: -35, y: -19, z: 0}
   m_Size: {x: 65, y: 35, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
@@ -14345,6 +14345,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2570095280084103775, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 776.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2570095280084103775, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -648.8
+      objectReference: {fileID: 0}
     - target: {fileID: 5206300264792544355, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -14453,6 +14461,14 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 2093868326}
+    - target: {fileID: 5943110472319052710, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
+      propertyPath: m_fontSize
+      value: 62.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5943110472319052710, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 62.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5b86b014164bec499549489c6dcc3b8, type: 3}
 --- !u!1001 &5730759851176746299
