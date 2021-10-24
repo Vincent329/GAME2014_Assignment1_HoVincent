@@ -1,17 +1,31 @@
+//------------Enemy.cs------------
+/* Name: Vincent Ho
+ * Student Number: 101334300
+ * 
+ * Date Last Modified: October 21, 2021
+ * 
+ * Description: The main enemy class, which has data shared across all of its child classes
+ * Revision History:
+ * 1) Created the script
+ * 2) provide the values that are shared among the enemy types such as points, damage values, and speed
+ * 3) Set up the action function to be overrideable for different use cases
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
 {
-    [Header("Point Value")]
+    [Header("Value")]
     [SerializeField] private int pointValue;
     public int PointValue => pointValue;
 
+    // damage values to inflict on a player upon contact (Ogre and Bounce use)
     [SerializeField] private float damageValue;
-
     protected float DamageValue => damageValue;
 
+    // the speed of the enemy type
     [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;
     protected float Speed
@@ -23,6 +37,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    // boolean to check if the enemy has been detected, used only for Ogre and Turret
     [SerializeField] private bool detected;
     protected bool Detected
     {
@@ -33,6 +48,7 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    // float representation of the rotation angle along the z axis, used for enemy to face towards the player
     [SerializeField] private float rotationAngle;
     protected float RotationAngle
     {
@@ -44,6 +60,7 @@ public abstract class Enemy : MonoBehaviour
             
     }
 
+    // the direction vector of the enemy in question
     [SerializeField] private Vector2 direction;
     protected Vector2 GetDirection
     {
@@ -55,27 +72,13 @@ public abstract class Enemy : MonoBehaviour
     }
 
     [SerializeField] public PlayerBehaviour player; // get a reference to the player
-    //protected PlayerBehaviour Player
-    //{
-    //    get => player;
-    //    set
-    //    {
-    //        Player = value;
-    //    }
-    //}
-
-    // when the enemy is first enabled, Fade in
-    private void OnEnable()
-    {
-        
-    
-    }
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.FindObjectOfType<PlayerBehaviour>();
 
+        // initialize values
         detected = false;
         RotationAngle = 0.0f;
     }
@@ -87,14 +90,15 @@ public abstract class Enemy : MonoBehaviour
     }
 
     /// <summary>
-    /// Every subclass is going to have its own iteration of the function action
+    /// Every subclass is going to have its own iteration of the function action, but the basic functionality is for the enemy to face the player
     /// </summary>
     protected virtual void Action()
     {
         Vector2 position = player.transform.position - transform.position;
         direction = position.normalized;
 
-        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90; // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
-        transform.rotation = Quaternion.AngleAxis(RotationAngle, Vector3.forward);
+        // representation in degrees for the rotation value the enemy needs in order to face the player
+        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90; // follows same logic from the player to face the mouse button
+        transform.rotation = Quaternion.AngleAxis(RotationAngle, Vector3.forward); // change the direction around the z axis. (Vector3.forward represents (0,0,1)
     }    
 }

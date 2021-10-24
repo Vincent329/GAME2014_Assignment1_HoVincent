@@ -17,6 +17,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Enemy Manager class
+/// </summary>
 [System.Serializable]
 public class EnemyManager
 {
@@ -27,6 +30,10 @@ public class EnemyManager
         Initialize();
     }
 
+    /// <summary>
+    /// Gets an instance of the enemy manager
+    /// </summary>
+    /// <returns></returns>
     public static EnemyManager GetInstance()
     {
         if (instance == null)
@@ -34,11 +41,12 @@ public class EnemyManager
         return instance;
     }
 
+    // sets up a list of queues for different enemy pools
     public List<Queue<GameObject>> enemyPools;
 
     private void Initialize()
     {
-        enemyPools = new List<Queue<GameObject>>();
+        enemyPools = new List<Queue<GameObject>>(); // set the list of queues in memory
 
         // instantiate  new queue collections based on number of enemy types
         for (int count = 0; count < (int)EnemyType.NUM_ENEMY_TYPES; count++)
@@ -48,6 +56,10 @@ public class EnemyManager
 
     }
 
+    /// <summary>
+    /// Depending on enemy type, create the enemy and place it in the resepective enemy pool
+    /// </summary>
+    /// <param name="eType"></param>
     private void AddEnemy(EnemyType eType = EnemyType.OGRE)
     {
         var temp_Enemy = EnemyFactory.Instance().createEnemy(eType);
@@ -78,14 +90,12 @@ public class EnemyManager
     }
 
     /// <summary>
-    /// This method returns a bullet back into the bullet pool
+    /// This method returns a enemy back into its respective enemy pool pool
     /// </summary>
-    /// <param name="returnedBullet"></param>
+    /// <param name="returnedEnemy"></param>
     public void ReturnEnemy(GameObject returnedEnemy, EnemyType eType = EnemyType.OGRE)
     {
         returnedEnemy.SetActive(false);
-
-        // depending on the type of the bullet, return it back to its respective bullet pool
         enemyPools[(int)eType].Enqueue(returnedEnemy);
 
     }

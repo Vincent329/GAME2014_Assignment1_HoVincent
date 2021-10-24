@@ -22,24 +22,19 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PickupItem", menuName = "Pickups/Pickup Item")]
 public class PickupItem : ScriptableObject
 {
-    public ItemType itemType; 
-    public string itemName = "Item";
+    
+    public ItemType itemType; // item enumerator for type differentiation
+    public string itemName = "Item"; // item name
 
     [TextArea]
-    public string description = "Basic Item Description";
+    public string description = "Basic Item Description"; // item description
 
+    // values based on how much health, excitement value, or score that these pickups should fill
     public float healthValue = 0.0f;
     public float exciteValue = 0.0f;
     public int scoreValue = 0;
 
+    // sprite image 
     public Sprite sprite = null;
 
-    /// <summary>
-    /// different use depending on the type of item this is
-    /// </summary>
-    public void Consume()
-    {
-        Debug.Log("Consume Item");
-        // put a switch case in here?
-    }
 }

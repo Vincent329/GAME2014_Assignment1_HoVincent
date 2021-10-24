@@ -1,4 +1,4 @@
-//------------Scene Manager.cs------------
+//------------MainMenuButtonManager.cs------------
 /* Name: Vincent Ho
  * Student Number: 101334300
  * 

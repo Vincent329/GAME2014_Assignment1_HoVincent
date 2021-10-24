@@ -12,6 +12,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Enemy Type class to classify types
+/// </summary>
 public enum EnemyType 
 {
     OGRE,

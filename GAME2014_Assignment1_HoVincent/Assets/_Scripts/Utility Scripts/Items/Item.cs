@@ -9,7 +9,8 @@
  * 
  * Revision History:
  * 1) created script
- * 2) filled OnTriggerEnter2D data
+ * 2) with a passed in scriptable object, data for this specific item shall be filled in
+ * 3) filled OnTriggerEnter2D data
  * 
  */
 
@@ -17,6 +18,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Item class
+/// </summary>
 public class Item : MonoBehaviour
 {
     [SerializeField]
@@ -29,6 +33,7 @@ public class Item : MonoBehaviour
     // getter for the item's type
     public ItemType GetItemType => itemType;
 
+    // different data values that will be filled in based on what was in the scriptable object
     private float healthValue;
     private float exciteValue;
     private int scoreValue;
@@ -45,6 +50,7 @@ public class Item : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // if we have a scriptable object attached, fill in the values as dictated
         if (pickup != null)
         {
             itemSprite = GetComponent<SpriteRenderer>();
@@ -62,13 +68,14 @@ public class Item : MonoBehaviour
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        // if it's a player that has collided with this object
         PlayerBehaviour test = collision.gameObject.GetComponent<PlayerBehaviour>();
         if (test != null)
         {
+            // call the player's ItemPickup function that will alter the player's stats + UI based on the data in the item class
+            // then return the item to the queue
             test.ItemPickup(gameObject.GetComponent<Item>());
             ItemManager.GetInstance().ReturnItem(gameObject);
-
-            Debug.Log("Return Item");
         }
     }
 }

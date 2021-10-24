@@ -17,11 +17,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Item Factory Class
+/// </summary>
 public class ItemFactory : MonoBehaviour
 {
     private static ItemFactory instance = null;
 
-    // reference to enemy prefabs
+    // reference to item prefabs
     [SerializeField]
     private GameObject healthPotion;
     private GameObject excitePotion;
@@ -29,13 +32,13 @@ public class ItemFactory : MonoBehaviour
 
     private ItemSpawner manager;
 
-    // private constructor for the enemy factory
+    // private constructor for the item factory
     private ItemFactory()
     {
         Initialize();
     }
 
-    // return a static instance of the enemy factory so that it can be called anywhere
+    // return a static instance of the item factory so that it can be called anywhere
     public static ItemFactory Instance()
     {
         if (instance == null)
@@ -46,17 +49,24 @@ public class ItemFactory : MonoBehaviour
     }
 
     /// <summary>
-    /// Goes through the Resources folder and loads the enemies as their own respective game objects
+    /// Goes through the Resources folder and loads the items as their own respective game objects
     /// </summary>
     private void Initialize()
     {
+        // gets the respective pickup and loads them as game objects
         healthPotion = Resources.Load("Prefabs/Items/HealthPotion") as GameObject;
         excitePotion = Resources.Load("Prefabs/Items/ExcitePotion") as GameObject;
         scoreCoin = Resources.Load("Prefabs/Items/Coin") as GameObject;
 
+        // find the item spawner that the items will be children of
         manager = GameObject.FindObjectOfType<ItemSpawner>();
     }
 
+    /// <summary>
+    /// instantiates an item based on the type of object it is.
+    /// </summary>
+    /// <param name="itemType"></param>
+    /// <returns></returns>
     public GameObject createItem(ItemType itemType = ItemType.HEALTH)
     {
         GameObject tempItem = null;
@@ -74,7 +84,7 @@ public class ItemFactory : MonoBehaviour
                 tempItem = MonoBehaviour.Instantiate(scoreCoin);
                 break;
         }
-        // get the parent transform of the bullet, be the game controller's game object transform
+        // make the item a child of the manager game object
         tempItem.transform.parent = manager.gameObject.transform;
         tempItem.SetActive(false);
 

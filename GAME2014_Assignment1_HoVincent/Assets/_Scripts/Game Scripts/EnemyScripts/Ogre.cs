@@ -12,7 +12,7 @@
  * 3) Made behaviour so that if the player enters the trigger radius, ogre detects player
  * 4) Created chase behaviour so that the ogre will always run towards the player
  * 5) Created Patrol point behaviour, place a random patrol point within the bounds of the level for ogre to go to if Player undetected
- * 6) retooled player detection algorithm
+ * 6) retooled player detection algorithm to follow traditional radial check rather than a trigger check
  */
 using System.Collections;
 using System.Collections.Generic;
@@ -48,11 +48,12 @@ public class Ogre : Enemy
     // Update is called once per frame
     void Update()
     {
+        // once detected, the Ogre pursues the player
         if (Detected == true)
         {
             Action();
         } 
-        else
+        else // otherwise travels to a random point on screen
         {
             Patrolling();
         }
@@ -73,19 +74,24 @@ public class Ogre : Enemy
     /// <param name="collision"></param>
     private void Patrolling()
     {
-        Vector2 position = patrolPoint - transform.position;
-        GetDirection = position.normalized;
+        // get a displacement vector between patrol point and current position
+        Vector2 distToPosition = patrolPoint - transform.position; 
+        GetDirection = distToPosition.normalized;
 
-        RotationAngle = Mathf.Atan2(GetDirection.y, GetDirection.x) * Mathf.Rad2Deg + 90; // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
+        // same logic as the base action class
+        RotationAngle = Mathf.Atan2(GetDirection.y, GetDirection.x) * Mathf.Rad2Deg + 90; // setting up to face the patrol point
         transform.rotation = Quaternion.AngleAxis(RotationAngle, Vector3.forward);
 
-        
+        // change velocity to head towards the patrol point
         rb.velocity = GetDirection * Speed;
-        if (position.magnitude < 0.3f)
+
+        // if the Ogre has almost reached its position, update the patrol location
+        if (distToPosition.magnitude < 0.3f)
         {
             UpdatePatrolLocation();
         }
 
+        // while the player hasn't been detected, try to see if the player has breached the detection radius
         if (Detected != true)
         {
             DetectPlayer();
@@ -97,6 +103,7 @@ public class Ogre : Enemy
     /// </summary>
     private void UpdatePatrolLocation()
     {
+        // within the patrol bounds, set a random vector3 for the Ogre to go to
         patrolPoint = new Vector3(Random.Range(-patrolBounds.absX, patrolBounds.absX), Random.Range(-patrolBounds.absY, patrolBounds.absY), 0.0f);
     }
 
@@ -119,8 +126,10 @@ public class Ogre : Enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
         PlayerBehaviour player = collision.gameObject.GetComponent<PlayerBehaviour>();
-        if (player != null) // if the colliding object has a component type of PlayerBehaviour
+        // if the colliding object has a component type of PlayerBehaviour
+        if (player != null) 
         {
+            // push the player away from the ogre
             Vector2 dist = player.transform.position - transform.position;
             player.PushBack(dist, DamageValue);
         }

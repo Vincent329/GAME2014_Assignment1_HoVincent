@@ -11,7 +11,11 @@
  * 1) created script
  * 2) Created movement logic based on touch input
  * 3) Created UI attachments
- * 4) Created Attack Behaviours
+ * 4) Created dash mechanic
+ * 5) Created Attack Behaviours
+ * 6) Update UI states based on items picked up
+ * 7) Create Damage function that subtracts the player's health value
+ * 8) Created function that pushes the player back and deals damage right after
  */
 
 using System.Collections;
@@ -19,6 +23,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// The Player Behaviour class
+/// </summary>
 public class PlayerBehaviour : MonoBehaviour
 {
     // UI values
@@ -28,17 +35,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private Slider healthSlider; // get slider values, a drag in for now, but may have to decouple
     [SerializeField] private Score scoreHandle;
-    public Score ScoreHandle => scoreHandle;
+    public Score ScoreHandle => scoreHandle; // accessor for the object with this Score component
 
-    [SerializeField] private ExcitementBar excitementHandle;
+    [SerializeField] private ExcitementBar excitementHandle; // the reference to the Excitement bar
 
     [Header("Touch Variables")]
     [SerializeField] Vector3 touchPos; // touchPosition continuously updates
-    [SerializeField] private float radius;
-    [SerializeField] private float attackRadius;
-    [SerializeField] private bool moveTrigger;
+    [SerializeField] private float radius; // Technically the radius of the circle collider
+    [SerializeField] private float attackRadius; // Used for a distance check when attacking the enemy
+
+    // booleans that trigger when the player is either in a moving state or an attacking state
+    [SerializeField] private bool moveTrigger; 
     [SerializeField] private bool attackTrigger;
 
+    // values dictating the speed of the player, both normal speed and dashing speed
     [Header("Movement Variables")]
     [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;
@@ -46,6 +56,8 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private float dashMultiplier;
     private float originalSpeed;
     private float dashSpeed;
+
+    // value of rotation represented as a float
     private float rotationAngle;
 
     // get physics data
@@ -66,11 +78,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     // Audio Source and array of potential clips to play
     private AudioSource audioSource;
-
     public AudioSource GetAudioSource => audioSource;
-
     [SerializeField] private AudioClip[] audioClipArray;
-
     public AudioClip[] GetAudioClipArray => audioClipArray;
 
     // Start is called before the first frame update
@@ -82,6 +91,7 @@ public class PlayerBehaviour : MonoBehaviour
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
 
+        // Initialize all local components
         radius = circleCollider.radius + 0.5f;
         touchPos = Vector3.zero;
         moveTrigger = false;
@@ -94,18 +104,20 @@ public class PlayerBehaviour : MonoBehaviour
 
         healthSlider.maxValue = maxHealthValue;
         
+        // find necessary game objects
         scoreHandle = GameObject.FindObjectOfType<Score>();
         excitementHandle = GameObject.FindObjectOfType<ExcitementBar>();
         attackHandle = GameObject.FindObjectOfType<PlayerAttack>();
         manager = GameObject.FindObjectOfType<MainMenuButtonManager>();
 
+        // starts as null
         targetEnemy = null;
     }
 
     // Update is called once per frame
     void Update()
     {
-        // touch differentiation in update?
+        // If there's an actual touch registered
        if (Input.touchCount > 0)
             TouchEvents();
         
@@ -117,6 +129,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// </summary>
     private void TouchEvents()
     {
+        // register a finger touch
         fingerTouch = Input.GetTouch(0);
         touchPos = Camera.main.ScreenToWorldPoint(fingerTouch.position);
         touchPos.z = 0.0f;
@@ -124,6 +137,7 @@ public class PlayerBehaviour : MonoBehaviour
         // switch logic between movement and attacking depending on the position of touch from the player
         dragDist = touchPos - transform.position;
 
+        // Once we have a finger registered
         if (fingerTouch.phase == TouchPhase.Began)
         {
             if (dragDist.sqrMagnitude <= radius * radius)
@@ -132,12 +146,12 @@ public class PlayerBehaviour : MonoBehaviour
             }
             else
             {
-                // Attack Logic
                 moveTrigger = false;
                 DetectAttack(touchPos);
             }
         }
 
+        // once we release the finger from the screen (unclick), slow down the plyaer and set the velocity;
         if (fingerTouch.phase == TouchPhase.Ended)
         {
             moveTrigger = false;
@@ -162,18 +176,22 @@ public class PlayerBehaviour : MonoBehaviour
     }
 
     /// <summary>
-    /// Touch case where we check if we tap an enemy or not
+    /// Touch case where we check if the position we touch has na enemy or not
     /// </summary>
     /// <param name="detectTouchPos"></param>
     private void DetectAttack(Vector3 detectTouchPos)
     {
         RaycastHit2D ray = Physics2D.Raycast(detectTouchPos, -Vector2.zero); // utilizing the raycast hit functionality from the Unity Documentation https://docs.unity3d.com/ScriptReference/Physics2D.Raycast.html
+        
+        // if our ray has a collider
         if (ray.collider != null)
         {
+            // if that collider has a type of Enemy
             if (ray.collider.GetComponent<Enemy>() != null)
             {
+                // the attack state is true
                 attackTrigger = true;
-                targetEnemy = ray.collider.GetComponent<Enemy>();
+                targetEnemy = ray.collider.GetComponent<Enemy>(); // get the current enemy's reference
             }
             else
             {
@@ -189,50 +207,64 @@ public class PlayerBehaviour : MonoBehaviour
     /// <param name="attackTouchPos"></param>
     private void Attack(Vector3 attackTouchPos)
     {
-        ResetDrag();
-        float attackRadiusSquared = attackRadius * attackRadius;
+        ResetDrag(); 
+        float attackRadiusSquared = attackRadius * attackRadius; // squared radius for checking the distance between player and enemy
 
+        // get displacement and direction vectors between the position of touch and the current player position (attackTouchPos is the referenced enemy's position)
         Vector2 distToTarget = attackTouchPos - transform.position;
         Vector3 direction = distToTarget.normalized;
 
+        // linearly interpolate the position of the player towards the position of the enemy
         transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed / 2);
 
+        // rotate character to face the direction of travel
         rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
         transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
 
+        // if the distance to he enemy is within the attack radius
         if (distToTarget.sqrMagnitude <= attackRadiusSquared)
         {
+            // attack the enemy
             attackTouchPos = transform.position;
-            anim.Play("SwordAnim", 0, 0);
-            audioSource.PlayOneShot(audioClipArray[1]); // Attack Swipe
-            Deceleration();
-            rb.velocity = Vector2.zero;
+            anim.Play("SwordAnim", 0, 0); // play the sword animation, it has trigger events that will call the activation and deactivation of the hitbox
+            audioSource.PlayOneShot(audioClipArray[1]); // Attack Swipe Sound effect plays
+
+            // slows down the player and reset velocity
+            Deceleration(); 
+            rb.velocity = Vector2.zero; 
+
+            // reset attack trigger state
             attackTrigger = false;
         }
     }
 
-
+    /// <summary>
+    /// logic to move the player on a set direction given the displacement between the finger dragging on the screen to the player
+    /// </summary>
+    /// <param name="distance"></param>
     private void MovePlayer(Vector3 distance)
     {
-        float radiusSquared = radius * radius;
-        if (dragDist.sqrMagnitude >= radiusSquared)
+        float radiusSquared = radius * radius; // square the radius for optimization purposes
+        if (dragDist.sqrMagnitude >= radiusSquared) // while keeping touch, when the player drags the finger outside of the player's collider
         {
-            ResetDrag();
-
+            ResetDrag(); 
             Vector3 direction = distance.normalized;    // normalize the direction of the finger touch drag
 
-
-            if (distance.sqrMagnitude >= radiusSquared * 25)
+            // Dashing logic, if the finger is far enough away from the player while it's moving
+            if (distance.sqrMagnitude >= radiusSquared * 25) 
             {
                 speed = dashSpeed;
-            }  else if (dragDist.sqrMagnitude < radiusSquared * 25) { 
+            }
+            // if finger doesn't reach that far, reset to the original speed
+            else if (dragDist.sqrMagnitude < radiusSquared * 25) { 
                 speed = originalSpeed;
             }
             
-            rb.velocity = direction * speed;
+            rb.velocity = direction * speed; // set the velocity based on the direction of the finger multiplied by the speed value
+
             // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
             rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
-            transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
+            transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward); // rotation value of z axis
         }
         else // if touch is close enough to player
         {
@@ -266,14 +298,16 @@ public class PlayerBehaviour : MonoBehaviour
     {
         attackTrigger = false;
         Deceleration();
+
         healthValue -= changeValue;
-        audioSource.PlayOneShot(audioClipArray[3]); // Damage
-        if (healthValue <= 0.0f)
+        audioSource.PlayOneShot(audioClipArray[3]); // plays the damage sound clip
+
+        if (healthValue <= 0.0f) // set the health to 0 to if it surpasses to negative
         {
             healthValue = 0.0f;
         }
         CheckDeath();
-        healthSlider.value = healthValue;
+        healthSlider.value = healthValue; // update the health slider's value
     }
 
     /// <summary>
@@ -284,26 +318,35 @@ public class PlayerBehaviour : MonoBehaviour
     {
         switch (inItem.GetItemType)
         {
+            // if the player picks up a health potion
             case (ItemType.HEALTH):
             {
-                    audioSource.PlayOneShot(audioClipArray[4]); // Health Potion Drink
+                audioSource.PlayOneShot(audioClipArray[4]); // Health Potion Drink sound effect
 
-                    healthValue += inItem.HealthValue;
+                // increase the health value and make sure it doesn't surpass the maximum health value
+                healthValue += inItem.HealthValue;
                 if (healthValue >= maxHealthValue)
                     healthValue = maxHealthValue;
-                healthSlider.value = healthValue;
+
+                healthSlider.value = healthValue; // update the health bar UI
                 break;
-            } case (ItemType.EXCITEMENT):
+            } 
+
+            // if the player picks up an excitement potion
+            case (ItemType.EXCITEMENT):
             {
-                    audioSource.PlayOneShot(audioClipArray[5]); // Excitement Potion Drink
-                    excitementHandle.GetComponent<Slider>().value += inItem.ExciteValue;
+                    audioSource.PlayOneShot(audioClipArray[5]); // Excitement Potion Drink soound effect
+                    excitementHandle.GetComponent<Slider>().value += inItem.ExciteValue; // increase the value of the excitement slider
                 break;
             }
+
+            // if the player picks up a coin
             case (ItemType.SCORECOIN):
             {
-                    audioSource.PlayOneShot(audioClipArray[2]); // Coin Pickup
+                audioSource.PlayOneShot(audioClipArray[2]); // Coin Pickup sound effect
 
-                    scoreHandle.ScoreValue += inItem.ScoreValue;
+                // increase the score value and update the UI 
+                scoreHandle.ScoreValue += inItem.ScoreValue;
                 scoreHandle.UpdateScore();
 
                 break;
@@ -330,6 +373,7 @@ public class PlayerBehaviour : MonoBehaviour
         attackHandle.DeactivateHitbox();
 
     }
+
     public void PushBack(Vector2 hitVector, float damageValue)
     {
         Vector2 directionVector = hitVector.normalized;

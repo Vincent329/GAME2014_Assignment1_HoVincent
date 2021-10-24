@@ -16,6 +16,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Enemy Factory Class
+/// </summary>
 public class EnemyFactory 
 {
     private static EnemyFactory instance = null;
@@ -56,13 +59,17 @@ public class EnemyFactory
         manager = GameObject.FindObjectOfType<EnemySpawner>();
     }
 
+    /// <summary>
+    /// Creates an enemy and parents it under the spawner
+    /// </summary>
+    /// <param name="enemyType"></param>
+    /// <returns></returns>
     public GameObject createEnemy(EnemyType enemyType = EnemyType.OGRE)
     {
         GameObject tempEnemy = null;
         switch (enemyType)
         {
-
-            // being very explicit with the instantiate function
+            // depending on enemy type, instantiate an enemy and parent it under the enemy spawner
             case EnemyType.OGRE:
                 tempEnemy = MonoBehaviour.Instantiate(ogreEnemy);
                 break;
@@ -73,7 +80,6 @@ public class EnemyFactory
                 tempEnemy = MonoBehaviour.Instantiate(bounceEnemy);
                 break;
         }
-        // get the parent transform of the bullet, be the game controller's game object transform
         tempEnemy.transform.parent = manager.gameObject.transform;
         tempEnemy.SetActive(false);
 

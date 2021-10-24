@@ -5,6 +5,8 @@
  * Date Last Modified: October 24, 2021
  * 
  * Description: This script is used to manage how often items spawn
+ * Refer back to enemy spawner for implementation details, as logic is the exact same
+ * 
  * Revision History:
  * 1) Followed framework from EnemySpawner
  */
@@ -13,11 +15,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Item Spawner class
+/// </summary>
 public class ItemSpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField]
-    private float spawnRate;
+    // similar logic to how the Enemy Spawner works, spawn rate multiplier, local spawn timer, boundaries, and maximum amount of items needed
+    [SerializeField] private float spawnRate;
     [SerializeField] private float spawnTimer;
     [SerializeField] private Boundaries bounds;
     [SerializeField] private int maxItems;

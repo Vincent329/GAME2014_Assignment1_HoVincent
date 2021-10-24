@@ -1,7 +1,21 @@
+//------------EnemyBulletManger.cs--------------------
+/* Name: Vincent Ho
+ * Student Number: 101334300
+ * 
+ * Date Last Modified: October 24, 2021
+ * 
+ * Description: This script is used to grab bullets/arrows off of the queue, this is where any classes that need a bullet will grab an instance of
+ * Revision History:
+ * 1) Create all necessary singleton functions for the Bullet factory, set up instance, bullet adding
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Enemy Bullet Manager class
+/// </summary>
 [System.Serializable]
 public class EnemyBulletManager
 {
@@ -12,6 +26,7 @@ public class EnemyBulletManager
         Initialize();
     }
 
+    // public static instance to access Singleton
     public static EnemyBulletManager Instance()
     {
         if (instance == null)
@@ -21,18 +36,29 @@ public class EnemyBulletManager
         return instance;
     }
 
+    // queue of bullets to pull from
     public Queue<GameObject> bulletPool;
     private void Initialize()
     {
         bulletPool = new Queue<GameObject>();
     }
 
+    /// <summary>
+    /// Add the bullet/arrow to the queue
+    /// </summary>
     private void AddBullet()
     {
         var temp_bullet = EnemyBulletFactory.Instance().createBullet();
         bulletPool.Enqueue(temp_bullet);
     }
 
+    /// <summary>
+    /// Dequeues a bullet from the bullet pool, sets up initial functions such as its position, rotation, and direction of velocity
+    /// </summary>
+    /// <param name="spawnPosition"></param>
+    /// <param name="rotation"></param>
+    /// <param name="direction"></param>
+    /// <returns></returns>
     public GameObject GetBullet(Vector2 spawnPosition, float rotation, Vector2 direction)
     {
         GameObject temp_bullet = null;
@@ -50,6 +76,7 @@ public class EnemyBulletManager
         return temp_bullet;
     }
 
+    /// <summary>
     /// This method returns a bullet back into the bullet pool
     /// </summary>
     /// <param name="returnedBullet"></param>

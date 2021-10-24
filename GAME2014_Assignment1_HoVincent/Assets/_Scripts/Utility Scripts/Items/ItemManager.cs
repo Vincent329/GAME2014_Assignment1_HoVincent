@@ -17,6 +17,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// The Item Manager class
+/// </summary>
 [System.Serializable]
 public class ItemManager : MonoBehaviour
 {
@@ -27,6 +30,10 @@ public class ItemManager : MonoBehaviour
         Initialize();
     }
 
+    /// <summary>
+    /// Get a static instance of the Item Manager for public access
+    /// </summary>
+    /// <returns></returns>
     public static ItemManager GetInstance()
     {
         if (instance == null)
@@ -34,13 +41,14 @@ public class ItemManager : MonoBehaviour
         return instance;
     }
 
+    // Like the Enemy Manager, create a list of queues for different item pools
     public List<Queue<GameObject>> itemPools;
 
     private void Initialize()
     {
-        itemPools = new List<Queue<GameObject>>();
+        itemPools = new List<Queue<GameObject>>(); // set it aside in memory
 
-        // instantiate  new queue collections based on number of bullet types
+        // instantiate  new queue collections based on number of item types
         for (int count = 0; count < (int)ItemType.NUM_ITEM_TYPES; count++)
         {
             itemPools.Add(new Queue<GameObject>()); // remember that it's a LIST, not an ARRAY
@@ -48,6 +56,10 @@ public class ItemManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Based on whatever item this is, place it in respective item pool
+    /// </summary>
+    /// <param name="itemType"></param>
     private void AddItem(ItemType itemType = ItemType.HEALTH)
     {
         var temp_Item = ItemFactory.Instance().createItem(itemType);
@@ -55,7 +67,7 @@ public class ItemManager : MonoBehaviour
     }
 
     /// <summary>
-    /// This method removes an enemy prefab from the enemy pool
+    /// This method removes an item prefab from the item pool
     /// and returns a reference to it.
     /// </summary>
     /// <param name="spawnPosition"></param>
@@ -68,7 +80,7 @@ public class ItemManager : MonoBehaviour
         {
             AddItem(itemType);
         }
-        // get the bullet from the queue
+        // get the item from the queue
         temp_Item = itemPools[(int)itemType].Dequeue();
 
         temp_Item.transform.position = spawnPosition;
@@ -78,14 +90,12 @@ public class ItemManager : MonoBehaviour
     }
 
     /// <summary>
-    /// This method returns a bullet back into the bullet pool
+    /// This method returns a item back into its respective item pool
     /// </summary>
-    /// <param name="returnedBullet"></param>
+    /// <param name="returnedItem"></param>
     public void ReturnItem(GameObject returnedItem, ItemType itemType = ItemType.HEALTH)
     {
         returnedItem.SetActive(false);
-
-        // depending on the type of the bullet, return it back to its respective bullet pool
         itemPools[(int)itemType].Enqueue(returnedItem);
 
     }
