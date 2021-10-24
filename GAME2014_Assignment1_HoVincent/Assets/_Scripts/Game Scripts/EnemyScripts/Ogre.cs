@@ -89,7 +89,7 @@ public class Ogre : Enemy
         if (player != null) // if the colliding object has a component type of PlayerBehaviour
         {
             Vector2 dist = player.transform.position - transform.position;
-            player.PushBack(dist);
+            player.PushBack(dist, 12);
         }
     }
 }

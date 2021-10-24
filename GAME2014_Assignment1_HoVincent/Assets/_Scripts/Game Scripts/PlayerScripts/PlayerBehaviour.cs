@@ -239,8 +239,11 @@ public class PlayerBehaviour : MonoBehaviour
         attackHandle.DeactivateHitbox();
 
     }
-    public void PushBack(Vector2 hitVector)
+    public void PushBack(Vector2 hitVector, float damageValue)
     {
+        Vector2 directionVector = hitVector.normalized;
+        rb.AddForce(directionVector * 10, ForceMode2D.Impulse);
 
+        HealthChange(damageValue);
     }
 }
