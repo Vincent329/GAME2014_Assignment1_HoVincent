@@ -14820,10 +14820,6 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5730759851481463177, guid: 5555a8f8844672340a1f29e5dbc574b6, type: 3}
-      propertyPath: attackRadius
-      value: 1.55
-      objectReference: {fileID: 0}
-    - target: {fileID: 5730759851481463177, guid: 5555a8f8844672340a1f29e5dbc574b6, type: 3}
       propertyPath: healthSlider
       value: 
       objectReference: {fileID: 33242257}

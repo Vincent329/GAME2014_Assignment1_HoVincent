@@ -50,7 +50,9 @@ public class PlayerBehaviour : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    // Attack Abilities
     [SerializeField] private PlayerAttack attackHandle;
+    [SerializeField] private Enemy targetEnemy;
     // dedicated vector for measuring the distance between the player and the touch input
     Touch fingerTouch;
 
@@ -79,6 +81,8 @@ public class PlayerBehaviour : MonoBehaviour
         scoreHandle = GameObject.FindObjectOfType<Score>();
         excitementHandle = GameObject.FindObjectOfType<ExcitementBar>();
         attackHandle = GameObject.FindObjectOfType<PlayerAttack>();
+
+        targetEnemy = null;
     }
 
     // Update is called once per frame
@@ -137,20 +141,27 @@ public class PlayerBehaviour : MonoBehaviour
         if (moveTrigger)
             MovePlayer(dragDist);
         else if (attackTrigger)
-            Attack(touchPos);        
+            Attack(targetEnemy.transform.position);        
     }
 
+    /// <summary>
+    /// Touch case where we check if we tap an enemy or not
+    /// </summary>
+    /// <param name="detectTouchPos"></param>
     private void DetectAttack(Vector3 detectTouchPos)
     {
         RaycastHit2D ray = Physics2D.Raycast(detectTouchPos, -Vector2.zero); // utilizing the raycast hit functionality from the Unity Documentation https://docs.unity3d.com/ScriptReference/Physics2D.Raycast.html
         if (ray.collider != null)
         {
-            Debug.Log(ray.collider.name);
-            attackTrigger = true;
-        }
-        else
-        {
-            attackTrigger = false;
+            if (ray.collider.GetComponent<Enemy>() != null)
+            {
+                attackTrigger = true;
+                targetEnemy = ray.collider.GetComponent<Enemy>();
+            }
+            else
+            {
+                attackTrigger = false;
+            }
         }
     }
 
@@ -161,9 +172,9 @@ public class PlayerBehaviour : MonoBehaviour
         {
             ResetDrag();
 
-            // normalize the direction of the drag
-            Vector3 direction = distance.normalized;
-            
+            Vector3 direction = distance.normalized;    // normalize the direction of the finger touch drag
+
+
             if (distance.sqrMagnitude >= radiusSquared*150)
             {
                 speed = dashSpeed;
@@ -259,14 +270,16 @@ public class PlayerBehaviour : MonoBehaviour
         Vector2 distToTarget = attackTouchPos - transform.position;
         Vector3 direction = distToTarget.normalized;
 
-        transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed);
+        transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed/2);
 
         rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
         transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
 
         if (distToTarget.sqrMagnitude <= attackRadiusSquared)
         {
+            attackTouchPos = transform.position;
             anim.Play("SwordAnim", 0, 0);
+            Deceleration();
             rb.velocity = Vector2.zero;
             attackTrigger = false;
         }
@@ -289,7 +302,8 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Vector2 directionVector = hitVector.normalized;
         rb.AddForce(directionVector * 10, ForceMode2D.Impulse);
-
+        attackTrigger = false;
+        Deceleration();
         HealthChange(damageValue);
     }
 

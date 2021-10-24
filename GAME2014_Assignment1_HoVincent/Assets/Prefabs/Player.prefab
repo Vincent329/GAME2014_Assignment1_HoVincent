@@ -168,7 +168,7 @@ MonoBehaviour:
   excitementHandle: {fileID: 0}
   touchPos: {x: 0, y: 0, z: 0}
   radius: 3
-  attackRadius: 2.91
+  attackRadius: 1.65
   moveTrigger: 0
   attackTrigger: 0
   speed: 2.75
