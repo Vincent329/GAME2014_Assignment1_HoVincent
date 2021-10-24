@@ -55,11 +55,13 @@ public class PlayerBehaviour : MonoBehaviour
     // Attack Abilities
     [SerializeField] private PlayerAttack attackHandle;
     [SerializeField] private Enemy targetEnemy;
-    // dedicated vector for measuring the distance between the player and the touch input
     Touch fingerTouch;
 
     // distance between finger and avatar
-    private Vector3 dragDist;
+    private Vector3 dragDist;    // dedicated vector for measuring the distance between the player and the touch input
+
+    // game manager
+    private MainMenuButtonManager manager;
 
     // Start is called before the first frame update
     void Start()
@@ -83,6 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
         scoreHandle = GameObject.FindObjectOfType<Score>();
         excitementHandle = GameObject.FindObjectOfType<ExcitementBar>();
         attackHandle = GameObject.FindObjectOfType<PlayerAttack>();
+        manager = GameObject.FindObjectOfType<MainMenuButtonManager>();
 
         targetEnemy = null;
     }
@@ -224,6 +227,7 @@ public class PlayerBehaviour : MonoBehaviour
         {
             healthValue = 0.0f;
         }
+        CheckDeath();
         healthSlider.value = healthValue;
     }
 
@@ -307,6 +311,13 @@ public class PlayerBehaviour : MonoBehaviour
         attackTrigger = false;
         Deceleration();
         HealthChange(damageValue);
+    }
+    private void CheckDeath()
+    {
+        if (healthValue <= 0)
+        {
+            manager.loadGameOverScene();
+        }
     }
 
     private void OnDrawGizmos()
