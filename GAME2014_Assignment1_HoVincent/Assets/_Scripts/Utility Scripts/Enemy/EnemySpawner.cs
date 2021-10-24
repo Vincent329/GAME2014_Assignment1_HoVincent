@@ -4,9 +4,16 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    [SerializeField]
-    private float spawnRate;
+    [SerializeField] private float spawnRate;
+    public float SpawnRate
+    {
+        get => spawnRate;
+        set
+        {
+            spawnRate = value;
+        }
+    }
+
     [SerializeField] private float spawnTimer;
 
     [SerializeField] private Boundaries bounds;

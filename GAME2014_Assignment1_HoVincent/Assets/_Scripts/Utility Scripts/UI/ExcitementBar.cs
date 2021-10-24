@@ -9,6 +9,7 @@ public class ExcitementBar : MonoBehaviour
     [SerializeField] private float sliderGainRate;
     // Start is called before the first frame update
     [SerializeField] private Slider exciteSlider;
+    [SerializeField] private EnemySpawner enemySpawner;
     [SerializeField] private MultiplierDisplay multDisplayHandle;
 
     private Score scoreObject;
@@ -16,6 +17,7 @@ public class ExcitementBar : MonoBehaviour
     void Start()
     {
         exciteSlider = GetComponent<Slider>();
+        enemySpawner = GameObject.FindObjectOfType<EnemySpawner>();
         scoreObject = GameObject.FindObjectOfType<Score>();
         multDisplayHandle = GameObject.FindObjectOfType<MultiplierDisplay>();
         exciteSlider.value = 0;
@@ -30,7 +32,9 @@ public class ExcitementBar : MonoBehaviour
             MonitorBar();
         } else
         {
+            // now not only will score multiplier be increase, but spawn rate of enemies will increase too
             scoreObject.ScoreMultiplier += 0.25f;
+            enemySpawner.SpawnRate += 0.5f;
             ResetBar();
             multDisplayHandle.UpdateHandle();
         }
