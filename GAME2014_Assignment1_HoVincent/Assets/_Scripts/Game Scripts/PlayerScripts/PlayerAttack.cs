@@ -6,8 +6,13 @@ public class PlayerAttack : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private CircleCollider2D attackHitbox;
+    [SerializeField] private PlayerBehaviour player;
     void Start()
     {
+        if (transform.parent != null)
+        {
+            player = transform.parent.GetComponent<PlayerBehaviour>();
+        }
         attackHitbox = GetComponent<CircleCollider2D>();
         attackHitbox.enabled = false;
     }
@@ -26,6 +31,9 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Enemy>() != null)
         {
+            player.ScoreHandle.ScoreValue += collision.gameObject.GetComponent<Enemy>().PointValue;
+            player.ScoreHandle.UpdateScore();
+
             EnemyManager.GetInstance().ReturnEnemy(collision.gameObject);
         }
     }

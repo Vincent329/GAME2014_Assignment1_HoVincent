@@ -5,8 +5,12 @@ using UnityEngine;
 public abstract class Enemy : MonoBehaviour
 {
     [Header("Point Value")]
-    [SerializeField] private float pointValue;
-    protected float PointValue => pointValue;
+    [SerializeField] private int pointValue;
+    public int PointValue => pointValue;
+
+    [SerializeField] private float damageValue;
+
+    protected float DamageValue => damageValue;
 
     [Range(0.1f, 10.0f)]
     [SerializeField] private float speed;

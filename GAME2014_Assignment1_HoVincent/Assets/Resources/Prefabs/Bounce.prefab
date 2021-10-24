@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pointValue: 3
+  damageValue: 5
   speed: 1.93
   detected: 0
   rotationAngle: 0

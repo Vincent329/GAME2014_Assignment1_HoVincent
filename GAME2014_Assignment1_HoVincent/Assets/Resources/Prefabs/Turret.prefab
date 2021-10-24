@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c07f2a99ca94ae9409a1bf0945c2d5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 0
+  pointValue: 5
   speed: 0.1
   detected: 0
   rotationAngle: 0

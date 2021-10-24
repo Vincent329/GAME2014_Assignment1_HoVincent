@@ -6,17 +6,11 @@ public class Bounce : Enemy
 {
     // Start is called before the first frame update
     private Rigidbody2D rb;
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), 0.0f) * Speed;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     protected override void Action()
@@ -30,7 +24,7 @@ public class Bounce : Enemy
         {
             PlayerBehaviour player = collision.gameObject.GetComponent<PlayerBehaviour>();
 
-            player.HealthChange(15.0f);
+            player.HealthChange(DamageValue);
             EnemyManager.GetInstance().ReturnEnemy(gameObject);
 
         }

@@ -27,6 +27,8 @@ public class PlayerBehaviour : MonoBehaviour
 
     [SerializeField] private Slider healthSlider; // get slider values, a drag in for now, but may have to decouple
     [SerializeField] private Score scoreHandle;
+    public Score ScoreHandle => scoreHandle;
+
     [SerializeField] private ExcitementBar excitementHandle;
 
     [Header("Touch Variables")]
