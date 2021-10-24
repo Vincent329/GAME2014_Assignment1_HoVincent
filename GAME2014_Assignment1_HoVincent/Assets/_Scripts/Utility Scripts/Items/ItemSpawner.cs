@@ -1,3 +1,14 @@
+//------------ItemSpawner.cs------------
+/* Name: Vincent Ho
+ * Student Number: 101334300
+ * 
+ * Date Last Modified: October 24, 2021
+ * 
+ * Description: This script is used to manage how often items spawn
+ * Revision History:
+ * 1) Followed framework from EnemySpawner
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +33,6 @@ public class ItemSpawner : MonoBehaviour
         spawnTimer += (spawnRate * Time.deltaTime);
         if (spawnTimer >= 10)
         {
-            Debug.Log("SpawnItem");
 
             float x = Random.Range(-bounds.absX, bounds.absX);
             float y = Random.Range(-bounds.absY, bounds.absY);

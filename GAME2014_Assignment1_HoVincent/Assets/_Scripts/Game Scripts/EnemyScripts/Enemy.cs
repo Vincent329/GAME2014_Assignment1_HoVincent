@@ -90,7 +90,7 @@ public abstract class Enemy : MonoBehaviour
         Vector2 position = player.transform.position - transform.position;
         direction = position.normalized;
 
-        RotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90; // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
+        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90; // https://forum.unity.com/threads/rotating-sprite-based-on-mouse-position.398478/
         transform.rotation = Quaternion.AngleAxis(RotationAngle, Vector3.forward);
     }    
 }

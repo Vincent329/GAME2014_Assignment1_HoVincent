@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class Turret : Enemy
 {
+    [SerializeField] private float attackTimer;
+    [SerializeField] private float attackTrigger;
+    [SerializeField] private Transform bulletSpawnPos;
+
     // Start is called before the first frame update
     void Start()
     {
         Detected = true; 
         player = GameObject.FindObjectOfType<PlayerBehaviour>();
-
+        attackTimer = 0;
     }
 
     // Update is called once per frame
@@ -23,7 +27,17 @@ public class Turret : Enemy
 
     protected override void Action()
     {
-        Debug.Log("Turret Action");
         base.Action();
+        attackTimer += Time.deltaTime;
+        if (attackTimer > attackTrigger)
+        {
+            ShootBullet();
+            attackTimer = 0;
+        }    
+    }
+
+    private void ShootBullet()
+    {
+        EnemyBulletManager.Instance().GetBullet(bulletSpawnPos.position, RotationAngle, GetDirection);
     }
 }

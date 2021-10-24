@@ -4,7 +4,7 @@
  * 
  * Date Last Modified: October 16, 2021
  * 
- * Description: This script is used as an enum class to carry differetn types of enemies
+ * Description: This script is used as an enum class to carry different types of enemies
  * Revision History:
  * 1) Laid out different enemy types
  */
