@@ -85,6 +85,8 @@ public class PlayerBehaviour : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        StaticScore.SetStaticScore = 0; // reset static score
+
         // get components necessary
         circleCollider = GetComponent<CircleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
