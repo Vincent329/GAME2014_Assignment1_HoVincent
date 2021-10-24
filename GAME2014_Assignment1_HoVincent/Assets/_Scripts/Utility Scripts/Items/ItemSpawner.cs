@@ -8,7 +8,6 @@ public class ItemSpawner : MonoBehaviour
     [SerializeField]
     private float spawnRate;
     [SerializeField] private float spawnTimer;
-
     [SerializeField] private Boundaries bounds;
     [SerializeField] private int maxItems;
 
@@ -38,10 +37,8 @@ public class ItemSpawner : MonoBehaviour
     private void SpawnItem(Vector2 spawnPos)
     {
         int itemCount = GameObject.FindObjectsOfType<Item>().Length + 1;
-        Debug.Log(itemCount);
         if (itemCount <= maxItems)
         {
-
             // generate a random type
             var randomItem = Random.Range(0, (int)ItemType.NUM_ITEM_TYPES);
             ItemType itemType = (ItemType)randomItem;

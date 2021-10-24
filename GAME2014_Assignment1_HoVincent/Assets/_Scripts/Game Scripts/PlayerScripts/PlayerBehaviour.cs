@@ -30,8 +30,9 @@ public class PlayerBehaviour : MonoBehaviour
     [SerializeField] private ExcitementBar excitementHandle;
 
     [Header("Touch Variables")]
+    [SerializeField] Vector3 touchPos; // touchPosition continuously updates
     [SerializeField] private float radius;
-    [SerializeField] private float dashRadius;
+    [SerializeField] private float attackRadius;
     [SerializeField] private bool moveTrigger;
     [SerializeField] private bool attackTrigger;
 
@@ -63,8 +64,8 @@ public class PlayerBehaviour : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-
         radius = circleCollider.radius;
+        touchPos = Vector3.zero;
         moveTrigger = false;
         dragDist = Vector3.zero;
         healthValue = 100;
@@ -89,14 +90,14 @@ public class PlayerBehaviour : MonoBehaviour
         
     }
 
-   
+
     /// <summary>
     /// Perpetually called by the update function to handle touch events
     /// </summary>
     private void TouchEvents()
     {
         fingerTouch = Input.GetTouch(0);
-        Vector3 touchPos = Camera.main.ScreenToWorldPoint(fingerTouch.position);
+        touchPos = Camera.main.ScreenToWorldPoint(fingerTouch.position);
         touchPos.z = 0.0f;
 
         // switch logic between movement and attacking depending on the position of touch from the player
@@ -111,18 +112,14 @@ public class PlayerBehaviour : MonoBehaviour
             else
             {
                 // Attack Logic
-                Debug.Log("Attack here");
                 moveTrigger = false;
-                attackTrigger = true; 
-                
-                anim.Play("SwordAnim",0,0);
+                DetectAttack(touchPos);
             }
         }
 
         if (fingerTouch.phase == TouchPhase.Ended)
         {
             moveTrigger = false;
-            attackTrigger = false;
             dragDist = Vector3.zero;
 
             Deceleration();
@@ -139,11 +136,22 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (moveTrigger)
             MovePlayer(dragDist);
-        if (attackTrigger)
-        {
-            // do something
-        }
+        else if (attackTrigger)
+            Attack(touchPos);        
+    }
 
+    private void DetectAttack(Vector3 detectTouchPos)
+    {
+        RaycastHit2D ray = Physics2D.Raycast(detectTouchPos, -Vector2.zero); // utilizing the raycast hit functionality from the Unity Documentation https://docs.unity3d.com/ScriptReference/Physics2D.Raycast.html
+        if (ray.collider != null)
+        {
+            Debug.Log(ray.collider.name);
+            attackTrigger = true;
+        }
+        else
+        {
+            attackTrigger = false;
+        }
     }
 
     private void MovePlayer(Vector3 distance)
@@ -152,10 +160,11 @@ public class PlayerBehaviour : MonoBehaviour
         if (dragDist.sqrMagnitude >= radiusSquared)
         {
             ResetDrag();
+
             // normalize the direction of the drag
             Vector3 direction = distance.normalized;
             
-            if (dragDist.sqrMagnitude >= radiusSquared*150)
+            if (distance.sqrMagnitude >= radiusSquared*150)
             {
                 speed = dashSpeed;
             }  else if (dragDist.sqrMagnitude <= radiusSquared * 25) { 
@@ -167,19 +176,26 @@ public class PlayerBehaviour : MonoBehaviour
             rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
             transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
         }
-        else
+        else // if touch is close enough to player
         {
             Deceleration();
             speed = originalSpeed;
         }
         anim.SetFloat("Velocity", rb.velocity.magnitude);
     }
-    private void Deceleration()
+
+    /// <summary>
+    /// introduce drag to slow down the player's velocity
+    /// </summary>
+    private void Deceleration() 
     {
         rb.drag = 10;
     }
 
-    private void ResetDrag()
+    /// <summary>
+    /// return to a frictionless state
+    /// </summary> 
+    private void ResetDrag() // return 
     {
         rb.drag = 0;
     }
@@ -202,7 +218,7 @@ public class PlayerBehaviour : MonoBehaviour
     /// called from the item class, it should increase values from a given item
     /// </summary>
     /// <param name="inItem"></param>
-    public void ItemChange(Item inItem)
+    public void ItemPickup(Item inItem)
     {
         switch (inItem.GetItemType)
         {
@@ -230,6 +246,36 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// When Attack Trigger happens, linearly interpolate to the position of touch
+    /// </summary>
+    /// <param name="attackTouchPos"></param>
+    private void Attack(Vector3 attackTouchPos)
+    {
+        ResetDrag();
+        float attackRadiusSquared = attackRadius * attackRadius;
+
+        Vector2 distToTarget = attackTouchPos - transform.position;
+        Vector3 direction = distToTarget.normalized;
+
+        transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed);
+
+        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+        transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
+
+        if (distToTarget.sqrMagnitude <= attackRadiusSquared)
+        {
+            anim.Play("SwordAnim", 0, 0);
+            rb.velocity = Vector2.zero;
+            attackTrigger = false;
+        }
+
+    }
+
+    /// <summary>
+    /// Hitbox activates via animation trigger
+    /// </summary>
     public void AttackStart()
     {
         attackHandle.ActivateHitBox();
@@ -246,4 +292,11 @@ public class PlayerBehaviour : MonoBehaviour
 
         HealthChange(damageValue);
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRadius);
+    }
+
 }

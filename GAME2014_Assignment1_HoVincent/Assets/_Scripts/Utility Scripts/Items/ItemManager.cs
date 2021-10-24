@@ -9,7 +9,8 @@
  * 
  * Revision History:
  * 1) created script
-
+ * 2) Brought in initialization from the Enemy Manager class
+ * 3) renamed variables to fit in with Item Manager context
  */
 
 using System.Collections;

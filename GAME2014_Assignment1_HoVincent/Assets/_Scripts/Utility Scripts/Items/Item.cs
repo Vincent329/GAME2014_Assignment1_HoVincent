@@ -10,6 +10,7 @@
  * Revision History:
  * 1) created script
  * 2) filled OnTriggerEnter2D data
+ * 
  */
 
 using System.Collections;
@@ -18,13 +19,12 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    // Start is called before the first frame update
     [SerializeField]
-    private PickupItem pickup;
+    private PickupItem pickup; // SCRIPTABLE OBJECT, place a ScriptableObject of PickupItem to fill in data
     [SerializeField]
     private SpriteRenderer itemSprite;
 
-    private ItemType itemType;
+    private ItemType itemType; // enumeration for specific item
 
     // getter for the item's type
     public ItemType GetItemType => itemType;
@@ -40,8 +40,9 @@ public class Item : MonoBehaviour
     public float ExciteValue => exciteValue;
     public int ScoreValue => scoreValue;
 
-  
-
+    /// <summary>
+    /// In Start, fill in local item variable data with data from the Scriptable Object
+    /// </summary>
     private void Start()
     {
         if (pickup != null)
@@ -56,7 +57,7 @@ public class Item : MonoBehaviour
     }
 
     /// <summary>
-    /// Collision logic
+    /// Collision logic, should player interact with the item, 
     /// </summary>
     /// <param name="collision"></param>
     private void OnTriggerEnter2D(Collider2D collision)
@@ -64,7 +65,7 @@ public class Item : MonoBehaviour
         PlayerBehaviour test = collision.gameObject.GetComponent<PlayerBehaviour>();
         if (test != null)
         {
-            test.ItemChange(gameObject.GetComponent<Item>());
+            test.ItemPickup(gameObject.GetComponent<Item>());
             ItemManager.GetInstance().ReturnItem(gameObject);
 
             Debug.Log("Return Item");

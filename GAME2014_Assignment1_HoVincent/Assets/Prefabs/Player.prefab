@@ -60,6 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52a6d56121b9b4d44bc61175e2d42df7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackHitbox: {fileID: 0}
 --- !u!1 &5730759851481463188
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,12 +166,14 @@ MonoBehaviour:
   healthSlider: {fileID: 0}
   scoreHandle: {fileID: 0}
   excitementHandle: {fileID: 0}
-  radius: 0
-  dashRadius: 0
+  touchPos: {x: 0, y: 0, z: 0}
+  radius: 3
+  attackRadius: 2.91
   moveTrigger: 0
   attackTrigger: 0
   speed: 2.75
   dashMultiplier: 3.69
+  attackHandle: {fileID: 0}
 --- !u!58 &5730759851481463178
 CircleCollider2D:
   m_ObjectHideFlags: 0
