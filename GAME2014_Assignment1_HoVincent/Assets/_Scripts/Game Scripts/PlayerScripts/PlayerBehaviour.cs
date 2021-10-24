@@ -10,7 +10,8 @@
  * Revision History:
  * 1) created script
  * 2) Created movement logic based on touch input
-
+ * 3) Created UI attachments
+ * 4) Created Attack Behaviours
  */
 
 using System.Collections;
@@ -63,6 +64,15 @@ public class PlayerBehaviour : MonoBehaviour
     // game manager
     private MainMenuButtonManager manager;
 
+    // Audio Source and array of potential clips to play
+    private AudioSource audioSource;
+
+    public AudioSource GetAudioSource => audioSource;
+
+    [SerializeField] private AudioClip[] audioClipArray;
+
+    public AudioClip[] GetAudioClipArray => audioClipArray;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -70,7 +80,9 @@ public class PlayerBehaviour : MonoBehaviour
         circleCollider = GetComponent<CircleCollider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        radius = circleCollider.radius;
+        audioSource = GetComponent<AudioSource>();
+
+        radius = circleCollider.radius + 0.5f;
         touchPos = Vector3.zero;
         moveTrigger = false;
         dragDist = Vector3.zero;
@@ -170,6 +182,36 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
+    /// <summary>
+    /// When Attack Trigger happens, linearly interpolate to the position of touch
+    /// </summary>
+    /// <param name="attackTouchPos"></param>
+    private void Attack(Vector3 attackTouchPos)
+    {
+        ResetDrag();
+        float attackRadiusSquared = attackRadius * attackRadius;
+
+        Vector2 distToTarget = attackTouchPos - transform.position;
+        Vector3 direction = distToTarget.normalized;
+
+        transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed / 2);
+
+        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
+        transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
+
+        if (distToTarget.sqrMagnitude <= attackRadiusSquared)
+        {
+            attackTouchPos = transform.position;
+            anim.Play("SwordAnim", 0, 0);
+            audioSource.PlayOneShot(audioClipArray[1]); // Attack Swipe
+            Deceleration();
+            rb.velocity = Vector2.zero;
+            attackTrigger = false;
+        }
+    }
+
+
     private void MovePlayer(Vector3 distance)
     {
         float radiusSquared = radius * radius;
@@ -180,10 +222,10 @@ public class PlayerBehaviour : MonoBehaviour
             Vector3 direction = distance.normalized;    // normalize the direction of the finger touch drag
 
 
-            if (distance.sqrMagnitude >= radiusSquared*150)
+            if (distance.sqrMagnitude >= radiusSquared * 25)
             {
                 speed = dashSpeed;
-            }  else if (dragDist.sqrMagnitude <= radiusSquared * 25) { 
+            }  else if (dragDist.sqrMagnitude < radiusSquared * 25) { 
                 speed = originalSpeed;
             }
             
@@ -222,7 +264,10 @@ public class PlayerBehaviour : MonoBehaviour
     /// <param name="changeValue"></param>
     public void HealthChange(float changeValue)
     {
+        attackTrigger = false;
+        Deceleration();
         healthValue -= changeValue;
+        audioSource.PlayOneShot(audioClipArray[3]); // Damage
         if (healthValue <= 0.0f)
         {
             healthValue = 0.0f;
@@ -241,19 +286,24 @@ public class PlayerBehaviour : MonoBehaviour
         {
             case (ItemType.HEALTH):
             {
-                healthValue += inItem.HealthValue;
+                    audioSource.PlayOneShot(audioClipArray[4]); // Health Potion Drink
+
+                    healthValue += inItem.HealthValue;
                 if (healthValue >= maxHealthValue)
                     healthValue = maxHealthValue;
                 healthSlider.value = healthValue;
                 break;
             } case (ItemType.EXCITEMENT):
             {
-                excitementHandle.GetComponent<Slider>().value += inItem.ExciteValue;
+                    audioSource.PlayOneShot(audioClipArray[5]); // Excitement Potion Drink
+                    excitementHandle.GetComponent<Slider>().value += inItem.ExciteValue;
                 break;
             }
             case (ItemType.SCORECOIN):
             {
-                scoreHandle.ScoreValue += inItem.ScoreValue;
+                    audioSource.PlayOneShot(audioClipArray[2]); // Coin Pickup
+
+                    scoreHandle.ScoreValue += inItem.ScoreValue;
                 scoreHandle.UpdateScore();
 
                 break;
@@ -265,40 +315,16 @@ public class PlayerBehaviour : MonoBehaviour
 
 
     /// <summary>
-    /// When Attack Trigger happens, linearly interpolate to the position of touch
-    /// </summary>
-    /// <param name="attackTouchPos"></param>
-    private void Attack(Vector3 attackTouchPos)
-    {
-        ResetDrag();
-        float attackRadiusSquared = attackRadius * attackRadius;
-
-        Vector2 distToTarget = attackTouchPos - transform.position;
-        Vector3 direction = distToTarget.normalized;
-
-        transform.position = Vector3.Lerp(transform.position, attackTouchPos, Time.deltaTime * speed/2);
-
-        rotationAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 90;
-        transform.rotation = Quaternion.AngleAxis(rotationAngle, Vector3.forward);
-
-        if (distToTarget.sqrMagnitude <= attackRadiusSquared)
-        {
-            attackTouchPos = transform.position;
-            anim.Play("SwordAnim", 0, 0);
-            Deceleration();
-            rb.velocity = Vector2.zero;
-            attackTrigger = false;
-        }
-
-    }
-
-    /// <summary>
     /// Hitbox activates via animation trigger
     /// </summary>
     public void AttackStart()
     {
         attackHandle.ActivateHitBox();
     }
+
+    /// <summary>
+    /// hitbox deactivates via animation trigger
+    /// </summary>
     public void AttackEnd()
     {
         attackHandle.DeactivateHitbox();
@@ -308,10 +334,13 @@ public class PlayerBehaviour : MonoBehaviour
     {
         Vector2 directionVector = hitVector.normalized;
         rb.AddForce(directionVector * 10, ForceMode2D.Impulse);
-        attackTrigger = false;
-        Deceleration();
+      
         HealthChange(damageValue);
     }
+
+    /// <summary>
+    /// loads game over screen if the player's health drops to 0
+    /// </summary>
     private void CheckDeath()
     {
         if (healthValue <= 0)

@@ -8,11 +8,14 @@ public class Turret : Enemy
     [SerializeField] private float attackTrigger;
     [SerializeField] private Transform bulletSpawnPos;
 
+    private AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
         Detected = true; 
         player = GameObject.FindObjectOfType<PlayerBehaviour>();
+        audioSource = GetComponent<AudioSource>();
         attackTimer = 0;
     }
 
@@ -39,5 +42,6 @@ public class Turret : Enemy
     private void ShootBullet()
     {
         EnemyBulletManager.Instance().GetBullet(bulletSpawnPos.position, RotationAngle, GetDirection);
+        audioSource.PlayOneShot(audioSource.clip);
     }
 }

@@ -33,7 +33,7 @@ public class PlayerAttack : MonoBehaviour
         {
             player.ScoreHandle.ScoreValue += collision.gameObject.GetComponent<Enemy>().PointValue;
             player.ScoreHandle.UpdateScore();
-
+            player.GetAudioSource.PlayOneShot(player.GetAudioClipArray[0]);
             EnemyManager.GetInstance().ReturnEnemy(collision.gameObject);
         }
     }
